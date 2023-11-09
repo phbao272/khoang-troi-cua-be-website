@@ -9,7 +9,7 @@ import {
   getNewsByTags,
   getOtherNewWithoutTags,
 } from "@/utils/common";
-import { Container, Stack } from "@mui/material";
+import { Box, Container, Stack } from "@mui/material";
 import { format } from "date-fns";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { DefaultSeo } from "next-seo";
@@ -54,6 +54,24 @@ const News: NextPage<Props> = ({ news, rightOtherNews, content }) => {
                       <div
                         style={{
                           textAlign: "justify",
+
+                          // "& ul": {
+                          //   display: "block",
+                          //   marginBlockStart: "1em",
+                          //   marginBlockEnd: "1em",
+                          //   marginInlineStart: "0px",
+                          //   marginInlineEnd: "0px",
+                          //   paddingInlineStart: "40px",
+                          // },
+
+                          // "& ol": {
+                          //   display: "block",
+                          //   marginBlockStart: "1em",
+                          //   marginBlockEnd: "1em",
+                          //   marginInlineStart: "0px",
+                          //   marginInlineEnd: "0px",
+                          //   paddingInlineStart: "40px",
+                          // },
                         }}
                         dangerouslySetInnerHTML={{
                           __html: JSON.parse(content),
