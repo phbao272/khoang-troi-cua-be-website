@@ -5,12 +5,12 @@ export interface INews {
   slug: string;
   banner_url: string;
   description: string;
-  contents: (IContentText | IContentImage)[];
+  // contents: (IContentText | IContentImage)[];
   author: string;
   tags: string[];
+  teams: string[];
 
   is_highlight?: boolean;
-  is_medium?: boolean;
 }
 
 export interface IContentText {

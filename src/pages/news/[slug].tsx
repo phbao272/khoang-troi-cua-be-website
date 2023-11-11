@@ -9,10 +9,12 @@ import {
   getNewsByTags,
   getOtherNewWithoutTags,
 } from "@/utils/common";
-import { Container, Stack } from "@mui/material";
+import { Box, Container, Stack } from "@mui/material";
 import { format } from "date-fns";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { DefaultSeo } from "next-seo";
+import { useEffect } from "react";
+import logoImg from "../../../public/ktcb-logo-512.png";
 import Error404 from "../404";
 
 interface Props {
@@ -21,8 +23,107 @@ interface Props {
   content: string;
 }
 
+const innerHtmlStyle = {
+  textAlign: "justify",
+
+  "& .image-wrapper": {
+    background: "#f5f5f5",
+    position: "relative",
+    overflow: "hidden",
+
+    "& .logo": {
+      position: "absolute",
+      top: "10px",
+      left: "10px",
+      width: "50px",
+      height: "50px",
+      objectFit: "cover",
+    },
+  },
+
+  "& img": {
+    maxWidth: "1200px",
+    width: "100%",
+    maxHeight: "675px",
+    height: "auto",
+  },
+
+  "& ul": {
+    listStyleType: "disc",
+    listStylePosition: "inside",
+
+    display: "block",
+    marginBlockStart: "0.5em",
+    marginBlockEnd: "0.5em",
+    marginInlineStart: "0px",
+    marginInlineEnd: "0px",
+    paddingInlineStart: "40px",
+    margin: 0,
+    marginBottom: "8px",
+  },
+  "& ol": {
+    listStyleType: "decimal",
+    listStylePosition: "inside",
+
+    display: "block",
+    marginBlockStart: "1em",
+    marginBlockEnd: "1em",
+    marginInlineStart: "0px",
+    marginInlineEnd: "0px",
+    paddingInlineStart: "40px",
+  },
+  "& ul ul, ol ul": {
+    listStyleType: "circle",
+    listStylePosition: "inside",
+    marginLeft: "15px",
+  },
+  "& ol ol, ul ol": {
+    listStyleType: "lower-latin",
+    listStylePosition: "inside",
+    marginLeft: "15px",
+  },
+  "& h2, h3, h4": {
+    marginTop: "8px",
+  },
+  "& p+p": {
+    marginTop: "16px",
+  },
+  "& span, p": {
+    lineHeight: 1.8,
+  },
+};
+
 const News: NextPage<Props> = ({ news, rightOtherNews, content }) => {
   const slideNewsData = getOtherNewWithoutTags(news?.tags);
+
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      const contentEl = document.getElementById("content");
+
+      if (!contentEl) return;
+
+      const images = contentEl.querySelectorAll("img");
+
+      images.forEach((image) => {
+        if (
+          // @ts-ignore
+          !Array.from(image.parentNode?.classList).includes("image-wrapper")
+        ) {
+          const divWrapper = document.createElement("div");
+          divWrapper.classList.add("image-wrapper");
+
+          const logo = document.createElement("img");
+          logo.src = logoImg.src;
+          logo.classList.add("logo");
+
+          image.parentNode?.insertBefore(divWrapper, image);
+
+          divWrapper.appendChild(image);
+          divWrapper.appendChild(logo);
+        }
+      });
+    }
+  }, [news]);
 
   return (
     <>
@@ -31,11 +132,19 @@ const News: NextPage<Props> = ({ news, rightOtherNews, content }) => {
       {news ? (
         <>
           <Stack>
-            <img
-              className={styles.banner}
-              src={news?.banner_url}
-              alt="banner"
-            />
+            <Box className="relative">
+              <img
+                className={styles.banner}
+                src={news?.banner_url}
+                alt="banner"
+              />
+
+              <img
+                className="absolute top-3 left-3 w-12 h-12 object-cover"
+                src={logoImg.src}
+                alt="banner"
+              />
+            </Box>
 
             <Container maxWidth="xl">
               <section className="news lg:pt-4 pt-4 mb-5">
@@ -51,10 +160,9 @@ const News: NextPage<Props> = ({ news, rightOtherNews, content }) => {
                     <h2 className="news-title text-2xl">{news?.title}</h2>
 
                     {content ? (
-                      <div
-                        style={{
-                          textAlign: "justify",
-                        }}
+                      <Box
+                        id="content"
+                        sx={innerHtmlStyle}
                         dangerouslySetInnerHTML={{
                           __html: JSON.parse(content),
                         }}
