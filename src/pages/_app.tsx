@@ -10,6 +10,7 @@ import { Hydrate, QueryClientProvider } from "@tanstack/react-query";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { Analytics } from "@vercel/analytics/react";
+import { CssBaseline } from "@mui/material";
 
 const clientSideEmotionCache = createEmotionCache();
 export interface MyAppProps extends AppProps {
@@ -27,7 +28,7 @@ export default function App(props: MyAppProps) {
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
           <ThemeProvider theme={theme}>
-            {/* <CssBaseline /> */}
+            <CssBaseline />
             <Layout>
               <Component {...pageProps} />
             </Layout>

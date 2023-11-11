@@ -51,27 +51,42 @@ const News: NextPage<Props> = ({ news, rightOtherNews, content }) => {
                     <h2 className="news-title text-2xl">{news?.title}</h2>
 
                     {content ? (
-                      <div
-                        style={{
+                      <Box
+                        sx={{
                           textAlign: "justify",
 
-                          // "& ul": {
-                          //   display: "block",
-                          //   marginBlockStart: "1em",
-                          //   marginBlockEnd: "1em",
-                          //   marginInlineStart: "0px",
-                          //   marginInlineEnd: "0px",
-                          //   paddingInlineStart: "40px",
-                          // },
+                          "& ul": {
+                            listStyleType: "disc",
+                            listStylePosition: "inside",
 
-                          // "& ol": {
-                          //   display: "block",
-                          //   marginBlockStart: "1em",
-                          //   marginBlockEnd: "1em",
-                          //   marginInlineStart: "0px",
-                          //   marginInlineEnd: "0px",
-                          //   paddingInlineStart: "40px",
-                          // },
+                            display: "block",
+                            marginBlockStart: "1em",
+                            marginBlockEnd: "1em",
+                            marginInlineStart: "0px",
+                            marginInlineEnd: "0px",
+                            paddingInlineStart: "40px",
+                          },
+                          "& ol": {
+                            listStyleType: "decimal",
+                            listStylePosition: "inside",
+
+                            display: "block",
+                            marginBlockStart: "1em",
+                            marginBlockEnd: "1em",
+                            marginInlineStart: "0px",
+                            marginInlineEnd: "0px",
+                            paddingInlineStart: "40px",
+                          },
+                          "& ul ul, ol ul": {
+                            listStyleType: "circle",
+                            listStylePosition: "inside",
+                            marginLeft: "15px",
+                          },
+                          "& ol ol, ul ol": {
+                            listStyleType: "lower-latin",
+                            listStylePosition: "inside",
+                            marginLeft: "15px",
+                          },
                         }}
                         dangerouslySetInnerHTML={{
                           __html: JSON.parse(content),
