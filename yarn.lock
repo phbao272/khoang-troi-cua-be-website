@@ -4179,6 +4179,11 @@ react-email@^1.9.5:
     shelljs "0.8.5"
     tree-node-cli "1.6.0"
 
+react-google-calendar-api@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/react-google-calendar-api/-/react-google-calendar-api-2.3.0.tgz#571632d442b2acb274e8ded598b5075105a9e5ac"
+  integrity sha512-Hzlx2LOYcSLoKobelFOobkU0MqCj5AB2YlnTV5IxlZ4zTuQFsAecefia5wxA0hTQVypfw3+xbx90TFauIBirqg==
+
 react-grid-gallery@^1.0.1-alpha.0:
   version "1.0.1-alpha.0"
   resolved "https://registry.yarnpkg.com/react-grid-gallery/-/react-grid-gallery-1.0.1-alpha.0.tgz#cf109162cec2472bc928b7ddad4e61fa8144f8db"
