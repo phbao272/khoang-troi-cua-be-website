@@ -3,6 +3,7 @@
 import { IIntro } from "@/@types/team";
 import { HomeContent, Intro, NewsLoadMore } from "@/components/features/home";
 import { SEO } from "@/configs/seo.config";
+import prisma from "@/libs/prisma";
 import { getIntroByTeam } from "@/utils/common";
 import { GetStaticProps, NextPage } from "next";
 import { DefaultSeo } from "next-seo";
@@ -35,6 +36,14 @@ export default Home;
 export const getStaticProps: GetStaticProps = async () => {
   try {
     const intro = getIntroByTeam();
+
+    const user = await prisma.user.findFirst({
+      where: {
+        id: 1,
+      },
+    });
+
+    console.log("user", user);
 
     if (!intro?.title || !intro?.content || !intro?.banner_url) {
       return {
