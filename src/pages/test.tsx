@@ -1,6 +1,10 @@
 import { SyntheticEvent, useState } from "react";
 
-import ApiCalendar from "react-google-calendar-api";
+import {
+  useSession,
+  useSupabaseClient,
+  useSessionContext,
+} from "@supabase/auth-helpers-react";
 
 const config = {
   clientId:
@@ -12,98 +16,108 @@ const config = {
   ],
 };
 
-const apiCalendar = new ApiCalendar(config);
-
 const TestDemo = () => {
-  const [events, setEvents] = useState([]);
-  const [calendars, setCalendars] = useState([]);
-  const handleItemClick = (event: SyntheticEvent<any>, name: string): void => {
-    if (name === "sign-in") {
-      apiCalendar.handleAuthClick();
-    } else if (name === "sign-out") {
-      apiCalendar.handleSignoutClick();
+  const [eventName, setEventName] = useState("");
+  const [eventDescription, setEventDescription] = useState("");
+
+  const session = useSession(); // tokens, when session exists we have a user
+  const supabase = useSupabaseClient(); // talk to supabase!
+  const { isLoading } = useSessionContext();
+
+  if (isLoading) {
+    return <></>;
+  }
+
+  async function googleSignIn() {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        scopes: "https://www.googleapis.com/auth/calendar",
+      },
+    });
+    if (error) {
+      alert("Error logging in to Google provider with Supabase");
+      console.log(error);
     }
-  };
+  }
+
+  async function signOut() {
+    await supabase.auth.signOut();
+  }
+
+  async function createCalendarEvent() {
+    console.log("Creating calendar event");
+    const event = {
+      summary: eventName,
+      description: eventDescription,
+      start: {
+        dateTime: new Date().toISOString(), // Date.toISOString() ->
+        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone, // America/Los_Angeles
+      },
+      end: {
+        dateTime: new Date().toISOString(), // Date.toISOString() ->
+        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone, // America/Los_Angeles
+      },
+      conferenceData: {
+        createRequest: {
+          requestId: "7qxalsvy0e",
+          conferenceSolutionKey: {
+            type: "hangoutsMeet",
+          },
+        },
+      },
+    };
+
+    await fetch(
+      "https://www.googleapis.com/calendar/v3/calendars/primary/events?conferenceDataVersion=1&sendNotifications=true",
+      {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer " + session?.provider_token, // Access token for google
+        },
+        body: JSON.stringify(event),
+      }
+    )
+      .then((data) => {
+        return data.json();
+      })
+      .then((data) => {
+        console.log(data);
+        alert("Event created, check your Google Calendar!");
+      });
+  }
+
+  console.log(session);
+  console.log(eventName);
+  console.log(eventDescription);
 
   return (
-    <div>
-      <div style={{ padding: "0.5em" }}>
-        <button onClick={(e) => handleItemClick(e, "sign-in")}>sign-in</button>
-        <button onClick={(e) => handleItemClick(e, "sign-out")}>
-          sign-out
-        </button>
-      </div>
-      <div style={{ padding: "0.5em" }}>
-        <button
-          onClick={(e) => {
-            const eventFromNow: object = {
-              summary: "Poc Dev From Now",
-              time: 480,
-            };
-
-            apiCalendar
-              .createEventFromNow(eventFromNow)
-              .then((result: object) => {
-                console.log(result);
-              })
-              .catch((error: any) => {
-                console.log(error);
-              });
-          }}
-        >
-          Create Event from now
-        </button>
-      </div>
-      <div style={{ padding: "0.5em" }}>
-        <button
-          onClick={(e) => {
-            apiCalendar.listUpcomingEvents(10).then(({ result }: any) => {
-              console.log(result.items);
-              setEvents(result.items);
-            });
-          }}
-        >
-          List upcoming events
-        </button>
-        <div>
-          <h4>Events</h4>
-          {events.length === 0 && <p>No events to show</p>}
-          {events.map((event) => (
-            <p key={event.id}>{JSON.stringify(event)}</p>
-          ))}
-        </div>
-      </div>
-      <div style={{ padding: "0.5em" }}>
-        <button
-          onClick={(e) => {
-            apiCalendar.listCalendars().then(({ result }: any) => {
-              console.log(result.items);
-              setCalendars(result.items);
-            });
-          }}
-        >
-          List calendars
-        </button>
-        <div>
-          <h4>Calendars</h4>
-          {calendars.length === 0 && <p>No calendars to show</p>}
-          {calendars.map((calendar) => (
-            <p key={calendar.id}>{JSON.stringify(calendar)}</p>
-          ))}
-        </div>
-      </div>
-      <div style={{ padding: "0.5em" }}>
-        <button
-          onClick={(e) => {
-            apiCalendar
-              .createCalendar("myCalendar2")
-              .then(({ result }: any) => {
-                console.log(result);
-              });
-          }}
-        >
-          Create calendar
-        </button>
+    <div className="App">
+      <div style={{ width: "400px", margin: "30px auto" }}>
+        {session ? (
+          <>
+            <h2>Hey there {session.user.email}</h2>
+            <p>Start of your event</p>
+            <p>End of your event</p>
+            <p>Event name</p>
+            <input type="text" onChange={(e) => setEventName(e.target.value)} />
+            <p>Event description</p>
+            <input
+              type="text"
+              onChange={(e) => setEventDescription(e.target.value)}
+            />
+            <hr />
+            <button onClick={() => createCalendarEvent()}>
+              Create Calendar Event
+            </button>
+            <p></p>
+            <button onClick={() => signOut()}>Sign Out</button>
+          </>
+        ) : (
+          <>
+            <button onClick={() => googleSignIn()}>Sign In With Google</button>
+          </>
+        )}
       </div>
     </div>
   );
