@@ -70,9 +70,14 @@ const Header = () => {
           </Stack>
         </Box>
 
-        <IconButton>
-          <LanguageIcon sx={{ fontSize: 25 }} />
-        </IconButton>
+        <div className="flex items-center gap-1">
+          <Link href="/profile">
+            <p>Chào Nguyễn Hữu Minh</p>
+          </Link>
+          <IconButton>
+            <LanguageIcon sx={{ fontSize: 25 }} />
+          </IconButton>
+        </div>
       </Stack>
 
       <Drawer anchor="left" open={openSideMenu} onClose={handleToggleSideMenu}>
