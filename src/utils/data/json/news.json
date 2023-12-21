@@ -1,48 +1,101 @@
 [
   {
+    "time": "2022/02/20",
+    "title": "Lời Kêu Gọi Hỗ Trợ Kịp Thời: Những Trái Tim Nhân Ái Trong 'Giông Bão' Của COVID-19",
+    "slug": "keu-goi-ho-tro-covid-19",
+    "banner_url": "http://ktcb.top/wp-content/uploads/2023/11/274402570_3187337098215056_7532573131095798158_n.jpg",
+    "description": "Trong những thời điểm đầy khó khăn, khi mà đại dịch COVID-19 tiếp tục ảnh hưởng đến cuộc sống tại Hà Nội nói riêng và Việt Nam nói chung. Tác động của đại dịch đối với trẻ em là vô cùng to lớn. Nhận thấy vấn đề đó, tổ chức tình nguyện “Khoảng Trời Của Bé” đã kêu gọi tài trợ quỹ và trao vật tư y tế phòng chống dịch cho các bé ở trung Tâm Bảo Trợ Xã Hội số III- cơ sở 3.",
+    "author": "Lê Nguyên Khánh",
+    "tags": [],
+    "team": "truyen-thong",
+    "is_highlight": false
+  },
+  {
+    "time": "2022/12/18",
+    "title": "Gác Bếp Trao Yêu Thương: Khi Hương Vị Gặp Trái Tim",
+    "slug": "gac-bep-trao-yeu-thuong",
+    "banner_url": "http://ktcb.top/wp-content/uploads/2023/11/2.png",
+    "description": "Mùa đông đã đến, với tiết trời lạnh buốt gợi nhớ chúng ta trở về với những kí ức ấm áp, nơi gia đình hòa mình trong hương vị thơm ngon của mâm cơm nhà. Tuy nhiên, giữa những khoảnh khắc ấm áp ấy, vẫn còn những trái tim “nhỏ” kém may mắn. Đó chính là lý do Gác Bếp Trao Yêu Thương ra đời, không chỉ mang đến những chiếc bánh ngon miệng mà còn là tình yêu thương từ những người tham gia. Hơn nữa, chương trình gây quỹ này được khởi động với mong muốn đem đến cho các em nhỏ tại Trung Tâm bảo Trợ Xã Hội số III- cơ sở 3 một cái Tết vui vẻ hơn.",
+    "author": "Lê Nguyên Khánh",
+    "tags": [],
+    "team": "truyen-thong",
+    "is_highlight": false
+  },
+  {
+    "time": "2023/11/15",
+    "title": "Khoảng Trời Của Bé - Bước lên phi thuyền, bay tới tương lai",
+    "slug": "khoang-troi-cua-be",
+    "banner_url": "http://ktcb.top/wp-content/uploads/2023/11/MG_9443.jpg",
+    "description": "Khoảng Trời Của Bé là một đóa hoa tình nguyện nở rộ với mục đích mang lại cho trẻ em khó khăn giá trị vật chất và tinh thần. Đây là nơi mà những đứa trẻ không chỉ học hỏi, phát triển kỹ năng, mà còn được ôm trọn trong tình thương, hy vọng. Khoảng Trời Của Bé không chỉ là ánh sáng cho những trẻ nhỏ bơ vơ, mà còn là nguồn động viên, khích lệ cho mọi người tham gia vào hành trình xây dựng một xã hội nâng cao giá trị nhân văn và tạo ra những 'khoảng trời' mới, đẹp hơn cho tương lai.",
+    "author": "Lê Thị Vân",
+    "tags": [],
+    "team": "truyen-thong",
+    "is_highlight": false
+  },
+  {
+    "time": "2023/08/27",
+    "title": "Zootopia và những khoảnh khắc đáng nhớ cùng các bạn nhỏ",
+    "slug": "khoang-troi-cua-be-zootopia",
+    "banner_url": "http://ktcb.top/wp-content/uploads/2023/11/33943980_2101722560109854_4889180556887064576_n.jpg",
+    "description": "Sau thành công của buổi chiếu phim thứ nhất cho các bạn nhỏ tại trung tâm Bảo Trợ Xã Hội số 3, tổ chức tình nguyện Khoảng Trời Của Bé quyết định tổ chức buổi chiếu phim thứ hai tại đây. Lần này, team Yêu Cùng Bé đã lựa chọn bộ phim “Zootopia - Phi Vụ Động Trời” với mong muốn đem lại cho các bé những trải nghiệm vui vẻ. Zootopia là thể loại phim hoạt hình, tuy nhiên xuyêt suốt bộ phim là những triết lý được các đạo diễn lồng ghép qua từng khoảnh khắc. Bộ phim là hành trình trưởng thành của cô thỏ Judy với những khó khăn không thể lường trước.",
+    "author": "Lê Nguyên Khánh",
+    "tags": [],
+    "team": "yeu-cung-be",
+    "is_highlight": false
+  },
+  {
     "time": "2023/11/11",
     "title": "Team Truyền Thông KTCB: Kết Nối, Lan Tỏa Niềm Tin",
-    "slug": "team-truyen-thong-ktcb-ket-noi-lan-toa-niem-tin",
+    "slug": "team-truyen-thong-ktcb",
     "banner_url": "http://ktcb.top/wp-content/uploads/2023/11/IMG_9583.jpg",
     "description": "Bạn đang tìm kiếm một cơ hội để kết nối với cộng đồng, lan tỏa những giá trị tích cực và đồng lòng xây dựng một xã hội tươi đẹp? Hãy gia nhập vào đội ngũ Team Truyền Thông của Khoảng Trời Của Bé - nơi bạn có thể biến những ý tưởng thành hiện thực, lan truyền yêu thương và sự chia sẻ đến mỗi ngóc ngách của Hà Nội.",
     "author": "Lê Thị Vân",
     "tags": [],
+    "team": "truyen-thong",
     "is_highlight": true
   },
   {
     "time": "2023/11/11",
     "title": "Kiến Trúc Sư Tình Nguyện: Chắp cánh ước mơ, đóng góp xã hội",
-    "slug": "kien-truc-su-tinh-nguyen-chap-canh-uoc-mo-dong-gop-xa-hoi",
+    "slug": "team-kien-truc-su-tinh-nguyen-ktcb",
     "banner_url": "http://ktcb.top/wp-content/uploads/2023/11/MG_9450.jpg",
     "description": "Nếu bạn là người yêu thích nhân sự và đam mê phát triển, xây dựng cộng đồng, vị trí team Kiến Trúc Sư Tình Nguyện tại Khoảng Trời Của Bé (KTCB) không chỉ đơn thuần là một công việc mà còn là hoạt động đầy ý nghĩa để xây dựng một xã hội tốt hơn. Tại đây, bạn sẽ không chỉ là thành viên trong team Kiến Trúc Sư Tình Nguyện mà còn là người định hình tương lai cho các thành viên và hướng phát triển của KTCB.",
     "author": "Lê Thị Vân",
-    "tags": []
+    "tags": [],
+    "team": "kien-truc-su-tinh-nguyen",
+    "is_highlight": true
   },
   {
     "time": "2023/11/11",
     "title": "Team Nội Dung KTCB: Kết nối đam mê, xây dựng tương lai",
-    "slug": "team-noi-dung-ktcb-ket-noi-dam-me-xay-dung-tuong-lai",
+    "slug": "team-noi-dung-ktcb",
     "banner_url": "http://ktcb.top/wp-content/uploads/2023/11/MG_5704.jpg",
     "description": "Chào mừng các bạn trẻ yêu thích hoạt động ngoại khóa và tình nguyện tới với Tổ Chức Khoảng Trời Của Bé (KTCB). Chúng tôi hiện đang mở cửa đón nhận ứng tuyển cho vị trí thành viên của team Nội Dung. Đây là cơ hội tuyệt vời để tham gia vào một tổ chức tình nguyện đầy ý nghĩa, nơi bạn có thể thể hiện sự sáng tạo, đam mê, lòng trách nhiệm của mình đối với xã hội và giáo dục. Hãy cùng nhau xây dựng những dự án và chương trình ý nghĩa, mang lại niềm vui, tri thức cho trẻ em Việt Nam!",
     "author": "Lê Thị Vân",
-    "tags": []
+    "tags": [],
+    "team": "noi-dung",
+    "is_highlight": true
   },
   {
     "time": "2023/11/11",
     "title": "Team Cùng Bé Trải Nghiệm: Định hình tương lai, nâng cao giá trị",
-    "slug": "team-cung-be-trai-nghiem-dinh-hinh-tuong-lai-nang-cao-gia-tri",
+    "slug": "team-cung-be-trai-nghiem-ktcb",
     "banner_url": "http://ktcb.top/wp-content/uploads/2023/11/MG_4350-1-scaled.jpg",
     "description": "Cùng Bé Trải Nghiệm là dự án giáo dục hướng đến các em nhỏ có hoàn cảnh khó khăn tại những trung tâm bảo trợ xã hội trong và ngoài Hà Nội. Với nhiều chủ đề gần gũi, thiết thực nhưng nhưng cũng không kém phần thú vị như “Biết yêu thương bản thân”, “Khéo tay hay làm”, “Ứng phó với tình huống nguy hiểm”,.. dự án tạo cơ hội cho trẻ có thêm những nhận thức, kĩ năng cần thiết, tăng khả năng thích ứng với cuộc sống, môi trường và nghề nghiệp tương lai.",
     "author": "Lê Thị Vân",
-    "tags": []
+    "tags": [],
+    "team": "cung-be-trai-nghiem",
+    "is_highlight": true
   },
   {
     "time": "2023/11/11",
     "title": "Team Yêu Cùng Bé: Kết nối sứ mệnh giáo dục và tình nguyện",
-    "slug": "team-yeu-cung-be-ket-noi-su-menh-giao-duc-va-tinh-nguyen",
+    "slug": "team-yeu-cung-be-ktcb",
     "banner_url": "http://ktcb.top/wp-content/uploads/2023/11/IMG_9444.jpg",
     "description": "Team Yêu Cùng Bé của Khoảng Trời Của Bé là một dự án tình nguyện, là cơ hội để mỗi bạn trẻ trở thành nguồn động viên, người hướng dẫn và người kết nối cho những giấc mơ bé nhỏ. Hãy cùng nhau mở cánh cửa hạnh phúc, sáng tạo và tương tác, để chúng ta chứng minh rằng mỗi cá nhân, từng ngày, có thể làm thay đổi thế giới xung quanh mình. Chào mừng bạn đến với gia đình của team Yêu Cùng Bé!",
     "author": "Lê Thị Vân",
-    "tags": []
+    "tags": [],
+    "team": "yeu-cung-be",
+    "is_highlight": true
   }
 ]

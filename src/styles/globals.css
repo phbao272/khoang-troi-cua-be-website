@@ -57,6 +57,10 @@ body {
   font-family: "Open Sans", sans-serif;
 }
 
+[multiple]:focus, [type=date]:focus, [type=datetime-local]:focus, [type=email]:focus, [type=month]:focus, [type=number]:focus, [type=password]:focus, [type=search]:focus, [type=tel]:focus, [type=text]:focus, [type=time]:focus, [type=url]:focus, [type=week]:focus, select:focus, textarea:focus {
+  --tw-ring-shadow: "none"
+}
+
 #primary {
   overflow: hidden;
 }
@@ -367,13 +371,27 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 40px;
+  padding: 70px;
   width: 50%;
-  height: 70%;
+  height: 80%;
+  font-size: 25px;
   border: 0;
   border-radius: 10px;
   backdrop-filter: blur(8px);
   outline: 15px solid #fff;
+}
+.background-intro-text i {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 20px;
+  position: absolute;
+  top: -50px;
+  right: -30px;
+  background-image: linear-gradient(to left bottom, #fa78b0, #fa4996);
 }
 @media (max-width: 1200px) {
   .background-intro-text {
@@ -382,7 +400,25 @@ body {
 }
 @media (max-width: 576px) {
   .background-intro-text {
-    justify-content: flex-start;
+    padding-right: 35px;
+    padding-left: 35px;
+    width: 80%;
+  }
+
+  .background-intro-text i {
+    top: -55px;
+    right: -20px;
+  }
+
+  .background-intro-text span em {
+   font-size: 16px;
+  }
+}
+
+@media (max-width: 380px) {
+
+  .background-intro-text i {
+    display: none;
   }
 }
 .background-intro-text h2::before {
@@ -397,19 +433,7 @@ body {
   border-radius: 10px;
   background-image: linear-gradient(to left bottom, #fa78b0, #fa4996);
 }
-.background-intro-text i {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  font-size: 20px;
-  position: absolute;
-  top: -50px;
-  right: -60px;
-  background-image: linear-gradient(to left bottom, #fa78b0, #fa4996);
-}
+
 .background-intro::before {
   content: "";
   position: absolute;

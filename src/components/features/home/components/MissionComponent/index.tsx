@@ -1,7 +1,6 @@
 import { Container, Grid, Stack, Typography } from "@mui/material";
 import { MissionCard } from "./MissionCard";
-import missionIntro from "../../../../../utils/data/json/mision-intro.json";
-import missionBackground from "../../../../../../public/mission-background.jpg";
+import ktcbBackground from "../../../../../../public/mission-background.jpg";
 
 type MissionProps = {
   missionCartData: {
@@ -18,23 +17,31 @@ export const MissionComponent: React.FC<MissionProps> = ({
     <Container
       sx={{
         maxWidth: "1900px !important",
-        paddingBottom: 8,
-        backgroundImage: `url(${missionBackground.src})`,
+        paddingTop: 7,
+        paddingBottom: 12,
+        backgroundImage: `url(${ktcbBackground.src})`,
         backgroundSize: "100% 100%;",
         backgroundPosition: "center",
       }}
     >
       <Stack alignItems="center">
-        <Typography variant="h5" fontWeight="bold">
-          {missionIntro.title}
+        <Typography
+          variant="h3"
+          fontWeight="bold"
+          textAlign="center"
+          sx={{
+            fontSize: {
+              xs: "1.5rem",
+              sm: "2rem",
+              md: "3rem",
+            },
+          }}
+        >
+          SỨ MỆNH RA ĐỜI VÀ HOẠT ĐỘNG
         </Typography>
-        <Typography mt={1} textAlign="center">
-          {missionIntro.description1}
-        </Typography>
-        <Typography textAlign="center">{missionIntro.description2}</Typography>
       </Stack>
 
-      <Grid container spacing={2} my={4} sx={{ justifyContent: "center" }}>
+      <Grid container spacing={5} my={1} sx={{ justifyContent: "center" }}>
         {missionCartData.map((mission, index) => (
           <Grid item xs={12} md={6} lg={4} key={index}>
             <MissionCard key={mission.title} missionCard={mission} />

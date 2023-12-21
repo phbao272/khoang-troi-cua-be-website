@@ -12,21 +12,31 @@ export const MissionCard: React.FC<MissionCardProps> = ({ missionCard }) => {
       elevation={1}
       sx={{
         borderRadius: "10px",
-        boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
+        boxShadow: "4px 4px 4px rgba(0, 0, 0, 0.1)",
         height: "100%",
         position: "relative",
       }}
     >
-      <Stack>
-        <Stack mx={8} my={4} className="relative">
-          <img
+      <Stack
+        sx={{
+          px: {
+            xs: 4,
+            md: 8,
+          },
+          py: {
+            xs: 2,
+            md: 3,
+          },
+        }}
+      >
+        <Stack className="relative" alignItems="center">
+          {/* <img
             className="absolute top-1 left-1 w-12 h-12 object-cover z-10"
             src={logoImg.src}
             alt="banner"
-          />
+          /> */}
           <Box
-            width="100%"
-            height="50%"
+            height="170px"
             component="img"
             src={missionCard.imageUrl}
             alt="mission-image"
@@ -34,14 +44,19 @@ export const MissionCard: React.FC<MissionCardProps> = ({ missionCard }) => {
               objectFit: "cover",
               borderRadius: "10px",
             }}
-          ></Box>
+          />
         </Stack>
 
         <Box sx={{ padding: 2 }}>
           <Typography variant="h5" textAlign="center" fontWeight="bold">
             {missionCard.title}
           </Typography>
-          <Typography mt={1} textAlign="center" color="GrayText">
+          <Typography
+            mt={1}
+            fontSize="22px"
+            textAlign="center"
+            color="GrayText"
+          >
             {missionCard.description}
           </Typography>
         </Box>

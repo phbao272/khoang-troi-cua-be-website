@@ -10,16 +10,23 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const MenuSection = ({ menuData }) => {
-  const { name, subMenus } = menuData;
+  const { name, path, subMenus } = menuData;
 
   return (
     <Accordion>
       {!subMenus ? (
-        <MenuItem>
-          <Typography>{name}</Typography>
+        <MenuItem
+          sx={{
+            height: "48px",
+          }}
+        >
+          <a href={path}>{name}</a>
         </MenuItem>
       ) : (
         <AccordionSummary
+          sx={{
+            height: "48px",
+          }}
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
         >

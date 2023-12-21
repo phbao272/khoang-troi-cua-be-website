@@ -5,7 +5,7 @@ import { Box, IconButton } from "@mui/material";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 import logoImg from "../../../../../public/ktcb-logo-512.png";
-import coverImagesData from "../../../../utils/data/json/cover-image-home-screen.json";
+import React from "react";
 
 const styleBtn = {
   position: "absolute",
@@ -18,6 +18,10 @@ const styleBtn = {
     backgroundColor: "#eee",
     opacity: 1,
   },
+};
+
+type CoverImageSlideType = {
+  coverImageData: string[];
 };
 
 const renderNextButton = (props: { isDisabled?: boolean }) => (
@@ -44,16 +48,18 @@ const renderPrevButton = (props: { isDisabled?: boolean }) => (
   </IconButton>
 );
 
-export const CoverImageSlide = () => {
-  const listImageCard = coverImagesData.map((url, index) => (
-    <Box className="relative w-full h-full" key={`${index}${url}`}>
+export const CoverImageSlide: React.FC<CoverImageSlideType> = ({
+  coverImageData,
+}) => {
+  const listImageCard = coverImageData.map((url, index) => (
+    <Box className="relative w-full h-[90vh]" key={`${index}${url}`}>
       <Box component="img" width="100%" height="100%" src={url} />
 
-      <img
+      {/* <img
         className="absolute top-1 left-1 w-12 h-12 object-cover z-10"
         src={logoImg.src}
         alt="banner"
-      />
+      /> */}
     </Box>
   ));
 

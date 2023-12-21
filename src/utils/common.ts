@@ -1,6 +1,6 @@
 import { INews } from "@/@types/news";
-import { IIntroData, TeamName } from "@/@types/team";
-import introData from "./data/json/intro-text.json";
+import { QQuoteData, TeamName } from "@/@types/team";
+import quoteData from "./data/json/quote.json";
 import newsData from "./data/json/news.json";
 
 export const getNewsBySlug = (slug: string) => {
@@ -61,14 +61,14 @@ export const sortNews = (team?: string) => {
   const data = newsData as unknown as INews[];
 
   const highlightedPosts = data.filter((post) => {
-    if (team && post?.teams) {
-      return post.is_highlight && post?.teams.includes(team);
+    if (team && post?.team) {
+      return post.is_highlight && post?.team.includes(team);
     }
     return post.is_highlight;
   });
   const nonHighlightedPosts = data.filter((post) => {
-    if (team && post?.teams) {
-      return !post.is_highlight && post?.teams.includes(team);
+    if (team && post?.team) {
+      return !post.is_highlight && post?.team.includes(team);
     }
     return !post.is_highlight;
   });
@@ -125,8 +125,8 @@ export const loadMoreNews = async (_cursor?: number, _pageSize?: number) => {
   };
 };
 
-export const getIntroByTeam = (team?: TeamName) => {
-  const data = introData as unknown as IIntroData;
+export const getQuoteByTeam = (team?: TeamName) => {
+  const data = quoteData as unknown as QQuoteData;
 
   const res = data[team || "home"];
 
@@ -141,4 +141,12 @@ export const ellipsisText = (lineClamp = 1) => {
     WebkitLineClamp: `${lineClamp}`,
     WebkitBoxOrient: "vertical",
   };
+};
+
+export const notEmptyMessage = (fieldName: string) => {
+  return `${fieldName} không được để trống`;
+};
+
+export const maxLengthMessage = (fieldName: string, maxLength = 255) => {
+  return `${fieldName} không được để trống và không được quá ${maxLength} ký tự`;
 };

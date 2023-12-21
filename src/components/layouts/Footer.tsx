@@ -9,8 +9,9 @@ import {
   Typography,
 } from "@mui/material";
 import Link from "next/link";
-import logo50 from "../../../public/logo50.png";
+import logoNoBackground from "../../../public/ktcb_logo_no_background.png";
 import footerData from "../../utils/data/json/footer.json";
+import { COLORS } from "@/utils/constants";
 
 const TikTokIcon = ({ color = "#000000" }) => {
   return (
@@ -35,13 +36,13 @@ const StyledIconButton = styled(IconButton)(({ theme }) => ({
 
 const Footer = () => {
   return (
-    <Stack px={[5, 10, 20]} bgcolor="#a7dbffff" width="100%" py={4} mt={2}>
+    <Stack px={[5, 10, 20]} bgcolor={COLORS.BLUE} width="100%" py={4} mt={2}>
       <Stack
         direction={["column", "row"]}
         justifyContent={["flex-start", "space-between"]}
         flexWrap={["wrap"]}
         alignItems={["flex-start", "center"]}
-        bgcolor="#a7dbffff"
+        bgcolor={COLORS.BLUE}
         py={2}
       >
         <Stack direction={["column", "column", "row"]} flexWrap="wrap">
@@ -66,9 +67,8 @@ const Footer = () => {
           <Link href="/">
             <Box
               component="img"
-              width={50}
               height={50}
-              src={logo50.src}
+              src={logoNoBackground.src}
               alt="Logo"
             ></Box>
           </Link>
