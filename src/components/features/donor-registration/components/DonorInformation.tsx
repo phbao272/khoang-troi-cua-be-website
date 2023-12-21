@@ -1,22 +1,21 @@
 import React from "react";
 import { Control, Controller, FieldErrors } from "react-hook-form";
-import { MemberRegistrationInputType } from "../types";
+import { DonorRegistrationInputType } from "../types";
 import { Stack, Typography, Grid } from "@mui/material";
 import { Input } from "@/components/shared/inputs";
 import { DatePicker } from "@/components/shared/inputs/time-picker";
 
 interface Props {
-  control: Control<MemberRegistrationInputType>;
-  errors: FieldErrors<MemberRegistrationInputType>;
+  control: Control<DonorRegistrationInputType>;
+  errors: FieldErrors<DonorRegistrationInputType>;
 }
 
 const COL_SPAN = {
   xs: 12,
-  sm: 6,
-  md: 4,
+  md: 6,
 };
 
-export const UserInformation: React.FC<Props> = ({ control, errors }) => {
+export const DonorInformation: React.FC<Props> = ({ control, errors }) => {
   return (
     <Stack>
       <Typography variant="h5" mb={2}>
@@ -95,44 +94,6 @@ export const UserInformation: React.FC<Props> = ({ control, errors }) => {
                 onChange={onChange}
                 error={!!errors.email?.message}
                 helperText={errors.email?.message}
-              />
-            )}
-          />
-        </Grid>
-
-        <Grid item {...COL_SPAN}>
-          <Controller
-            name="work_place"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <Input
-                label={"Bạn đang học tập hay công tác ở đâu?"}
-                required
-                fullWidth
-                placeholder={"Nhập nơi làm việc"}
-                value={value}
-                onChange={onChange}
-                error={!!errors.work_place?.message}
-                helperText={errors.work_place?.message}
-              />
-            )}
-          />
-        </Grid>
-
-        <Grid item {...COL_SPAN}>
-          <Controller
-            name="address"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <Input
-                label={"Bạn đang sống ở khu vực nào?"}
-                required
-                fullWidth
-                placeholder={"Nhập khu vực đang sinh sống"}
-                value={value}
-                onChange={onChange}
-                error={!!errors.address?.message}
-                helperText={errors.address?.message}
               />
             )}
           />
