@@ -37,13 +37,15 @@ export default function App(props: MyAppProps) {
       </Head>
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
             <ThemeProvider theme={theme}>
               <ToastContainer />
               <CssBaseline />
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
+              {hydated && (
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
+              )}
             </ThemeProvider>
           </LocalizationProvider>
         </Hydrate>
