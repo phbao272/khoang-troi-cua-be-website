@@ -6,10 +6,15 @@ import {
   MemberRegistrationInputSchema,
   MemberRegistrationInputType,
 } from "./types";
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import { Container } from "@/components/layouts/Container";
+import { toast } from "react-toastify";
+import ktcbBackground from "@public/mission-background.jpg";
+import { useRouter } from "next/router";
 
 export const MemberRegistration = () => {
+  const router = useRouter();
+
   const {
     control,
     handleSubmit,
@@ -36,11 +41,49 @@ export const MemberRegistration = () => {
 
   const onSubmit = handleSubmit((data) => {
     console.log(data);
+
+    toast.success("Xác nhận thành công. Cảm ơn đã gửi thông tin");
   });
 
   return (
-    <Container>
+    <Container
+      sx={{
+        backgroundImage: `url(${ktcbBackground.src})`,
+        backgroundSize: "100% 100%;",
+        backgroundPosition: "center",
+      }}
+    >
       <div className="flex flex-col mt-9 gap-4">
+        <div className="flex items-center gap-2">
+          <Button
+            variant="contained"
+            sx={{
+              width: "fit-content",
+              color: "#fff",
+            }}
+            disabled
+            color="secondary"
+            onClick={() => router.push("/member-registration")}
+          >
+            Trở thành thành viên
+          </Button>
+          <Button
+            variant="contained"
+            sx={{
+              width: "fit-content",
+              color: "#fff",
+            }}
+            color="secondary"
+            onClick={() => router.push("/donor-registration")}
+          >
+            Trở thành nhà hảo tâm
+          </Button>
+        </div>
+
+        <Typography fontSize={28} fontWeight={"bold"}>
+          Đăng ký trở thành thành viên Khoảng Trời Của Bé
+        </Typography>
+
         <UserInformation control={control} errors={errors} />
 
         <UserSocialActivities control={control} errors={errors} />
@@ -52,8 +95,10 @@ export const MemberRegistration = () => {
           sx={{
             marginTop: "1rem",
             width: "fit-content",
-            alignSelf: "flex-end",
+            alignSelf: "center",
+            color: "#fff",
           }}
+          color="secondary"
           onClick={onSubmit}
         >
           Gửi thông tin
