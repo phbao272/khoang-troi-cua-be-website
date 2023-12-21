@@ -12,6 +12,9 @@ import { Analytics } from "@vercel/analytics/react";
 import { CssBaseline } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { useEffect, useState } from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const clientSideEmotionCache = createEmotionCache();
 export interface MyAppProps extends AppProps {
@@ -20,6 +23,12 @@ export interface MyAppProps extends AppProps {
 
 export default function App(props: MyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+
+  const [hydated, seHydrated] = useState(false);
+
+  useEffect(() => {
+    seHydrated(true);
+  }, []);
 
   return (
     <CacheProvider value={emotionCache}>
@@ -30,10 +39,13 @@ export default function App(props: MyAppProps) {
         <Hydrate state={pageProps.dehydratedState}>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <ThemeProvider theme={theme}>
+              <ToastContainer />
               <CssBaseline />
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
+              {hydated && (
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
+              )}
             </ThemeProvider>
           </LocalizationProvider>
         </Hydrate>

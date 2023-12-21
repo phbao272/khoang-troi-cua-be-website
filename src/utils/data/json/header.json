@@ -61,5 +61,16 @@
       { "name": "Thành viên", "path": "/member-registration" },
       { "name": "Nhà hảo tâm", "path": "/donor-registration" }
     ]
+  },
+  {
+    "name": "Nội bộ",
+    "path": "/internal",
+    "subMenus": [
+      { "name": "Quản lý thành viên", "path": "/member-management" },
+      { "name": "Quản lý đơn tuyển", "path": "/recruitment-management" },
+      { "name": "Quản lý thu chi", "path": "/" },
+      { "name": "Tài liệu nội bộ", "path": "/" },
+      { "name": "Danh sách thành viên", "path": "/member-list" }
+    ]
   }
 ]
