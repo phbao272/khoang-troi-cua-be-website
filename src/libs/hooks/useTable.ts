@@ -22,6 +22,27 @@ export const useTable = <T extends MRT_RowData>({
     localization: MRT_Localization_VI,
     enableDensityToggle: false,
     enableFilters: false,
+    enableColumnActions: false,
+    enableColumnFilters: false,
+    enableSorting: false,
+
+    muiTableBodyRowProps: { hover: false },
+    muiTableProps: {
+      sx: {
+        border: "1px solid #ccc",
+      },
+    },
+    muiTableHeadCellProps: {
+      sx: {
+        border: "1px solid #ccc",
+        fontWeight: "500",
+      },
+    },
+    muiTableBodyCellProps: {
+      sx: {
+        border: "1px solid #ccc",
+      },
+    },
     ...props,
   });
 
