@@ -27,6 +27,24 @@ export const useTable = <T extends MRT_RowData>({
     enableSorting: false,
     enableFullScreenToggle: false,
     enableHiding: false,
+
+    muiTableBodyRowProps: { hover: false },
+    muiTableProps: {
+      sx: {
+        border: "1px solid #ccc",
+      },
+    },
+    muiTableHeadCellProps: {
+      sx: {
+        border: "1px solid #ccc",
+        fontWeight: "500",
+      },
+    },
+    muiTableBodyCellProps: {
+      sx: {
+        border: "1px solid #ccc",
+      },
+    },
     ...props,
   });
 
