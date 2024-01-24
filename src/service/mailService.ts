@@ -2,7 +2,8 @@ import * as nodemailer from 'nodemailer';
 
 export async function sendMail(subject: any, toEmail: any, otpText: any) {
   var transporter = nodemailer.createTransport({
-    service: "brevo",
+    service: "smtp-relay.brevo.com",
+    port: 587,
     auth: {
       user: process.env.NODEMAILER_EMAIL,
       pass: process.env.NODEMAILER_PW,
