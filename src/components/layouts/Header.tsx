@@ -1,6 +1,6 @@
 import LanguageIcon from "@mui/icons-material/Language";
 import MenuIcon from "@mui/icons-material/Menu";
-import { Box, IconButton, Stack} from "@mui/material";
+import { Box, IconButton, Stack } from "@mui/material";
 import Drawer from "@mui/material/Drawer";
 import Link from "next/link";
 import menuData from "../../utils/data/json/header.json";
@@ -71,7 +71,7 @@ const Header = () => {
         </Box>
 
         <Stack direction="row" alignItems="center" gap="12px">
-          <Link
+          {/* <Link
             href="/login"
             className="text-sm font-semibold hover:opacity-80 cursor-pointer"
           >
@@ -79,7 +79,7 @@ const Header = () => {
             </Link>
           <Link href="/profile">
           Chào Nguyễn Hữu Minh
-          </Link>
+          </Link> */}
           <IconButton>
             <LanguageIcon sx={{ fontSize: 25 }} />
           </IconButton>
