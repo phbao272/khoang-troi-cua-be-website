@@ -7,10 +7,10 @@ import {
   MemberRegistrationInputType,
 } from "./types";
 import { Button, Typography } from "@mui/material";
-import { Container } from "@/components/layouts/Container";
 import ktcbBackground from "@public/mission-background.jpg";
 import { useRouter } from "next/router";
 import ToastSuccess from "@/components/shared/toasts/ToastSuccess";
+import { ContainerXL } from "@/components/layouts/ContainerXL";
 
 export const MemberRegistration = () => {
   const router = useRouter();
@@ -48,7 +48,7 @@ export const MemberRegistration = () => {
   });
 
   return (
-    <Container
+    <ContainerXL
       sx={{
         backgroundImage: `url(${ktcbBackground.src})`,
         backgroundSize: "100% 100%;",
@@ -109,6 +109,6 @@ export const MemberRegistration = () => {
           Gửi thông tin
         </Button>
       </div>
-    </Container>
+    </ContainerXL>
   );
 };
