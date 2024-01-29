@@ -9,13 +9,14 @@ import {
   getNewsByTags,
   getOtherNewWithoutTags,
 } from "@/utils/common";
-import { Box, Container, Stack } from "@mui/material";
+import { Box, Button, Container, Stack } from "@mui/material";
 import { format } from "date-fns";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { DefaultSeo } from "next-seo";
 import { useEffect } from "react";
 import logoImg from "../../../public/ktcb-logo-512.png";
 import Error404 from "../404";
+import { useDisclosure } from "@/libs/hooks/useDisclosure";
 
 interface Props {
   news: INews;
@@ -96,6 +97,9 @@ const innerHtmlStyle = {
 const News: NextPage<Props> = ({ news, rightOtherNews, content }) => {
   const slideNewsData = getOtherNewWithoutTags(news?.tags);
 
+  const [openedConfirm, { open: openConfirm, close: closeConfirm }] =
+    useDisclosure(false);
+
   useEffect(() => {
     if (typeof document !== "undefined") {
       const contentEl = document.getElementById("content");
@@ -168,6 +172,18 @@ const News: NextPage<Props> = ({ news, rightOtherNews, content }) => {
                         }}
                       />
                     ) : null}
+
+                    <Button
+                      variant="contained"
+                      sx={{
+                        alignSelf: "flex-end",
+                        width: "fit-content",
+                      }}
+                      color="secondary"
+                      onClick={() => console.log("Share")}
+                    >
+                      Chia sẻ bài viết qua Email
+                    </Button>
                   </div>
 
                   <div className="flex flex-col align-center justify-start gap-4 lg:px-6 lg:w-1/4 pr-4 pl-4 w-full lg:mt-0 mt-4">
