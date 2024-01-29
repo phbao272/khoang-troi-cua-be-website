@@ -1,6 +1,6 @@
 import LanguageIcon from "@mui/icons-material/Language";
 import MenuIcon from "@mui/icons-material/Menu";
-import { Box, IconButton, Stack} from "@mui/material";
+import { Box, IconButton, Stack } from "@mui/material";
 import Drawer from "@mui/material/Drawer";
 import Link from "next/link";
 import menuData from "../../utils/data/json/header.json";
@@ -76,10 +76,8 @@ const Header = () => {
             className="text-sm font-semibold hover:opacity-80 cursor-pointer"
           >
             Đăng nhập
-            </Link>
-          <Link href="/profile">
-          Chào Nguyễn Hữu Minh
           </Link>
+          <Link href="/profile">Chào Nguyễn Hữu Minh</Link>
           <IconButton>
             <LanguageIcon sx={{ fontSize: 25 }} />
           </IconButton>

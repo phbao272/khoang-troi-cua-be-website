@@ -12,7 +12,7 @@ interface Props {
 
 export const UserKTCB: React.FC<Props> = ({ control, errors }) => {
   return (
-    <Stack>
+    <Stack mt={1}>
       <Typography variant="h5" mb={2}>
         Về Khoảng Trời Của Bé…
       </Typography>
@@ -34,6 +34,7 @@ export const UserKTCB: React.FC<Props> = ({ control, errors }) => {
                 error={!!errors.position?.message}
                 helperText={errors.position?.message}
                 options={PositionKTCB}
+                placeholder="Chọn vị trí ứng tuyển"
               />
             )}
           />

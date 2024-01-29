@@ -44,7 +44,13 @@ export default function Login() {
   });
 
   return (
-    <Container component="main" maxWidth="sm" className="mb-10">
+    <Container
+      component="main"
+      maxWidth="sm"
+      sx={{
+        paddingBottom: "110px",
+      }}
+    >
       <Box
         sx={{
           marginTop: 20,
