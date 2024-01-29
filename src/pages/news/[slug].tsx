@@ -17,6 +17,7 @@ import { useEffect } from "react";
 import logoImg from "../../../public/ktcb-logo-512.png";
 import Error404 from "../404";
 import { useDisclosure } from "@/libs/hooks/useDisclosure";
+import { ModalConfirm } from "@/components/shared/modals";
 
 interface Props {
   news: INews;
@@ -129,6 +130,12 @@ const News: NextPage<Props> = ({ news, rightOtherNews, content }) => {
     }
   }, [news]);
 
+  const handleShareViaEmail = () => {
+    console.log("Share via email");
+
+    closeConfirm();
+  };
+
   return (
     <>
       <DefaultSeo {...SEO} title={news?.title} />
@@ -180,7 +187,7 @@ const News: NextPage<Props> = ({ news, rightOtherNews, content }) => {
                         width: "fit-content",
                       }}
                       color="secondary"
-                      onClick={() => console.log("Share")}
+                      onClick={openConfirm}
                     >
                       Chia sẻ bài viết qua Email
                     </Button>
@@ -207,6 +214,14 @@ const News: NextPage<Props> = ({ news, rightOtherNews, content }) => {
           <Stack alignItems="center" px={7}>
             <SlideNews slideNewsData={slideNewsData} />
           </Stack>
+
+          <ModalConfirm
+            title={`Chia sẻ bài viết qua Email`}
+            open={openedConfirm}
+            onClose={closeConfirm}
+            content={`Bạn xác nhận sẽ chia sẽ bài viết qua Email?`}
+            onConfirm={handleShareViaEmail}
+          />
         </>
       ) : (
         <Error404 />
