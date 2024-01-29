@@ -1,8 +1,8 @@
-import {  maxLengthMessage } from "@/utils/common";
+import { maxLengthMessage } from "@/utils/common";
 import { z } from "zod";
 import { REGEX_PHONE_NUMBER } from "@/utils/constants";
 
-export const MemberRegistrationInputSchema = z
+export const ProfileInputSchema = z
   .object({
     // UserInformation
     full_name: z
@@ -52,49 +52,11 @@ export const MemberRegistrationInputSchema = z
       .max(255, {
         message: maxLengthMessage("Nơi làm việc"),
       }),
-
-    // UserSocialActivities
-    has_social_activities: z.string(),
-
-    memories: z
-      .string()
-      .trim()
-      .max(1000, {
-        message: maxLengthMessage("Kỷ niệm"),
-      }),
-
-    // UserKTCB
-    position: z
-      .string()
-      .trim()
-      .min(1, {
+      bank_account: z.string().min(1, {
         message: "Không được để trống",
-      }),
-    hope_to_receive: z
-      .string()
-      .trim()
-      .min(1, {
-        message: "Không được để trống",
-      })
-      .max(1000, {
-        message: maxLengthMessage("Mong muốn nhận"),
       }),
   })
-  // If has social activities, you must fill memories field
-  .refine(
-    (val) => {
-      if (val.has_social_activities == "1") {
-        return val.memories.trim().length > 0;
-      }
 
-      return true;
-    },
-    {
-      path: ["memories"],
-      message: "Không được để trống",
-    }
-  );
-
-export type MemberRegistrationInputType = z.infer<
-  typeof MemberRegistrationInputSchema
+export type ProfileInputType = z.infer<
+  typeof ProfileInputSchema
 >;

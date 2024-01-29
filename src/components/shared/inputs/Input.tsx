@@ -2,7 +2,6 @@ import {
   InputAdornment,
   OutlinedInput,
   OutlinedInputProps,
-  makeStyles,
 } from "@mui/material";
 import React from "react";
 import { InputControl } from "./components/InputControl";
@@ -45,6 +44,7 @@ const Input: React.FC<Props> = ({
           fontSize: "16px",
           lineHeight: "24px",
           fontWeight: 400,
+          backgroundColor: "#fff",
 
           "& .MuiOutlinedInput-input": {
             padding: 0,

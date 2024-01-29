@@ -1,43 +1,37 @@
 import React from "react";
-import { UserInformation, UserKTCB, UserSocialActivities } from "./components";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  MemberRegistrationInputSchema,
-  MemberRegistrationInputType,
+  DonorRegistrationInputSchema,
+  DonorRegistrationInputType,
 } from "./types";
-import { Button, Typography } from "@mui/material";
+import { Button, Typography, Grid } from "@mui/material";
+import { ContainerXL } from "@/components/layouts/ContainerXL";
 import ktcbBackground from "@public/mission-background.jpg";
 import { useRouter } from "next/router";
+import { DonorDonate, DonorInformation } from "./components";
 import ToastSuccess from "@/components/shared/toasts/ToastSuccess";
-import { ContainerXL } from "@/components/layouts/ContainerXL";
 
-export const MemberRegistration = () => {
+export const DonorRegistration = () => {
   const router = useRouter();
-
   const [open, setOpen] = React.useState(false);
 
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<MemberRegistrationInputType>({
-    resolver: zodResolver(MemberRegistrationInputSchema),
+    setError,
+  } = useForm<DonorRegistrationInputType>({
+    resolver: zodResolver(DonorRegistrationInputSchema),
     defaultValues: {
       full_name: "",
       birthday: Date.now(),
       phone_number: "",
       email: "",
-      address: "",
-      work_place: "",
 
-      // social activities
-      has_social_activities: "1",
-      memories: "",
-
-      // ktcb
-      position: "",
-      hope_to_receive: "",
+      // donate
+      kind_of_donate: "1",
+      image_url: "",
     },
   });
 
@@ -53,7 +47,6 @@ export const MemberRegistration = () => {
         backgroundImage: `url(${ktcbBackground.src})`,
         backgroundSize: "cover",
         backgroundPosition: "top",
-        paddingBottom: "2rem",
       }}
     >
       <div className="flex flex-col mt-9 gap-4">
@@ -63,13 +56,12 @@ export const MemberRegistration = () => {
           heading="Xác nhận thành công"
           content="Cảm ơn đã gửi thông tin"
         />
-        <div className="flex justify-center items-center gap-2">
+        <div className="flex items-center justify-center gap-2">
           <Button
             variant="contained"
             sx={{
               width: "fit-content",
             }}
-            disabled
             color="secondary"
             onClick={() => router.push("/member-registration")}
           >
@@ -80,6 +72,7 @@ export const MemberRegistration = () => {
             sx={{
               width: "fit-content",
             }}
+            disabled
             color="secondary"
             onClick={() => router.push("/donor-registration")}
           >
@@ -88,14 +81,25 @@ export const MemberRegistration = () => {
         </div>
 
         <Typography fontSize={28} fontWeight={"bold"}>
-          Đăng ký trở thành thành viên Khoảng Trời Của Bé
+          Đăng ký trở thành nhà hảo tâm Khoảng Trời Của Bé
         </Typography>
 
-        <UserInformation control={control} errors={errors} />
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={9}>
+            <DonorInformation control={control} errors={errors} />
 
-        <UserSocialActivities control={control} errors={errors} />
-
-        <UserKTCB control={control} errors={errors} />
+            <DonorDonate
+              control={control}
+              errors={errors}
+              setError={setError}
+            />
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <div className="w-[150px] h-[150px] border-solid border-2 border-black">
+              QR code
+            </div>
+          </Grid>
+        </Grid>
 
         <Button
           variant="contained"
