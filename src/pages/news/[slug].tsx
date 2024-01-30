@@ -18,6 +18,7 @@ import logoImg from "../../../public/ktcb-logo-512.png";
 import Error404 from "../404";
 import { useDisclosure } from "@/libs/hooks/useDisclosure";
 import { ModalConfirm } from "@/components/shared/modals";
+import ToastSuccess from "@/components/shared/toasts/ToastSuccess";
 
 interface Props {
   news: INews;
@@ -101,6 +102,9 @@ const News: NextPage<Props> = ({ news, rightOtherNews, content }) => {
   const [openedConfirm, { open: openConfirm, close: closeConfirm }] =
     useDisclosure(false);
 
+  const [openedSuccess, { open: openSuccess, close: closeSuccess }] =
+    useDisclosure(false);
+
   useEffect(() => {
     if (typeof document !== "undefined") {
       const contentEl = document.getElementById("content");
@@ -134,6 +138,8 @@ const News: NextPage<Props> = ({ news, rightOtherNews, content }) => {
     console.log("Share via email");
 
     closeConfirm();
+
+    openSuccess();
   };
 
   return (
@@ -221,6 +227,13 @@ const News: NextPage<Props> = ({ news, rightOtherNews, content }) => {
             onClose={closeConfirm}
             content={`Bạn xác nhận sẽ chia sẽ bài viết qua Email?`}
             onConfirm={handleShareViaEmail}
+          />
+
+          <ToastSuccess
+            open={openedSuccess}
+            onClose={closeSuccess}
+            heading="Xác nhận thành công"
+            content="Chia sẻ bài viết qua Email thành công"
           />
         </>
       ) : (
