@@ -14,8 +14,8 @@ import { format } from "date-fns";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { DefaultSeo } from "next-seo";
 import { useEffect } from "react";
-import logoImg from "../../../public/ktcb-logo-512.png";
-import Error404 from "../404";
+import logoImg from "../../public/ktcb-logo-512.png";
+import Error404 from "./404";
 import { useDisclosure } from "@/libs/hooks/useDisclosure";
 import { ModalConfirm } from "@/components/shared/modals";
 import ToastSuccess from "@/components/shared/toasts/ToastSuccess";
@@ -28,11 +28,20 @@ interface Props {
 
 const innerHtmlStyle = {
   textAlign: "justify",
+  fontSize: "20px",
 
   "& .image-wrapper": {
-    background: "#f5f5f5",
+    background: "#ffffff",
     position: "relative",
-    overflow: "hidden",
+
+    marginTop: "20px",
+    marginBottom: "20px",
+    maxWidth: "700px",
+    width: "100%",
+    // maxHeight: "675px",
+    height: "auto",
+    marginLeft: "auto",
+    marginRight: "auto",
 
     "& .logo": {
       position: "absolute",
@@ -40,15 +49,7 @@ const innerHtmlStyle = {
       left: "10px",
       width: "50px",
       height: "50px",
-      objectFit: "cover",
     },
-  },
-
-  "& img": {
-    maxWidth: "1200px",
-    width: "100%",
-    maxHeight: "675px",
-    height: "auto",
   },
 
   "& ul": {
@@ -85,14 +86,17 @@ const innerHtmlStyle = {
     listStylePosition: "inside",
     marginLeft: "15px",
   },
-  "& h2, h3, h4": {
-    marginTop: "8px",
+  "& h2, h3, h4, blockquote": {
+    fontWeight: "bold",
+    fontSize: "1.3em",
+    marginTop: "20px",
+    marginBottom: "10px",
   },
-  "& p+p": {
-    marginTop: "16px",
+  "& p": {
+    marginTop: "15px",
   },
-  "& span, p": {
-    lineHeight: 1.8,
+  "& em": {
+    fontStyle: "italic",
   },
 };
 
@@ -174,8 +178,7 @@ const News: NextPage<Props> = ({ news, rightOtherNews, content }) => {
                       </span>
                       <strong>{news?.author}</strong>
                     </div>
-                    <h2 className="news-title text-2xl">{news?.title}</h2>
-
+                    <h1 className="news-title text-4xl">{news?.title}</h1>
                     {content ? (
                       <Box
                         id="content"
