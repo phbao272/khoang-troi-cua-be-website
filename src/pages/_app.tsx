@@ -16,7 +16,6 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { useEffect, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useEffect, useState } from "react";
 
 const clientSideEmotionCache = createEmotionCache();
 export interface MyAppProps extends AppProps {
@@ -26,7 +25,7 @@ export interface MyAppProps extends AppProps {
 export default function App(props: MyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
 
-  const [hydated, seHydrated] = useState(false);
+  const [hydrated, seHydrated] = useState(false);
 
   useEffect(() => {
     seHydrated(true);
@@ -43,7 +42,7 @@ export default function App(props: MyAppProps) {
             <ThemeProvider theme={theme}>
               <ToastContainer />
               <CssBaseline />
-              {hydated && (
+              {hydrated && (
                 <Layout>
                   <Component {...pageProps} />
                 </Layout>
