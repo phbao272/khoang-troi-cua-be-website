@@ -12,7 +12,11 @@ import Head from "next/head";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { CssBaseline } from "@mui/material";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { useEffect, useState } from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const clientSideEmotionCache = createEmotionCache();
 export interface MyAppProps extends AppProps {
@@ -22,7 +26,7 @@ export interface MyAppProps extends AppProps {
 export default function App(props: MyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps: { session, ...pageProps } } = props;
 
-  const [hydated, seHydrated] = useState(false);
+  const [hydrated, seHydrated] = useState(false);
 
   useEffect(() => {
     seHydrated(true);
@@ -35,16 +39,19 @@ export default function App(props: MyAppProps) {
       </Head>
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            {hydated && (
-              <Layout>
-                <SessionProvider session={session}>
-                  <Component {...pageProps} />
-                </SessionProvider>  
-              </Layout>
-            )}
-          </ThemeProvider>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <ThemeProvider theme={theme}>
+              <ToastContainer />
+              <CssBaseline />
+              {hydrated && (
+                <Layout>
+                  <SessionProvider session={session}>
+                    <Component {...pageProps} />
+                  </SessionProvider>
+                </Layout>
+              )}
+            </ThemeProvider>
+          </LocalizationProvider>
         </Hydrate>
       </QueryClientProvider>
       <Analytics />
