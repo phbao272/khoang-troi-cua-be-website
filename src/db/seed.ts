@@ -4,6 +4,7 @@ import { hash } from 'bcryptjs'
 const prisma = new PrismaClient()
 
 async function main() {
+  // seed users
   const password = await hash("ktcbtest", 12);
   const user = await prisma.user.upsert({
     where: { email: "ktcb@gmail.com" },
@@ -15,6 +16,15 @@ async function main() {
     },
   });
   console.log({ user });
+  // seed testEmails
+  const testEmail = await prisma.testEmail.upsert({
+    where: { email: "minhhuunguyen1511@gmail.com" },
+    update: {},
+    create: {
+      email: "minhhuunguyen1511@gmail.com",
+    },
+  });
+  console.log({ testEmail });
 }
 
 main()

@@ -1,6 +1,6 @@
 import * as nodemailer from 'nodemailer';
 
-export async function sendMail(subject: any, toEmail: any, otpText: any) {
+export async function sendMail(subject: string, toEmails: string[], content: any) {
   var transporter = nodemailer.createTransport({
     service: "smtp-relay.brevo.com",
     port: 587,
@@ -12,9 +12,9 @@ export async function sendMail(subject: any, toEmail: any, otpText: any) {
 
   var mailOptions = {
     from: process.env.NODEMAILER_EMAIL,
-    to: toEmail,
+    to: toEmails,
     subject: subject,
-    text: otpText,
+    text: content,
   };
 
   return transporter.sendMail(mailOptions, (err: Error | null, info) => {

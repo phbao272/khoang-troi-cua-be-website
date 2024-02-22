@@ -138,12 +138,29 @@ const News: NextPage<Props> = ({ news, rightOtherNews, content }) => {
     }
   }, [news]);
 
-  const handleShareViaEmail = () => {
-    console.log("Share via email");
+  const handleShareViaEmail = async (e: any) => {
+    e.preventDefault();
 
-    closeConfirm();
+    try {
+      const response = await fetch('/api/your-endpoint', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({...news, content}),
+      });
 
-    openSuccess();
+      if (!response.ok) {
+        throw new Error(`API request failed with status ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log('Success:', data);
+
+      closeConfirm();
+
+      openSuccess();
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
