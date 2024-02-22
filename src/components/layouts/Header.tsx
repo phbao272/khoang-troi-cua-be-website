@@ -10,6 +10,7 @@ import MenuSection from "./Menu";
 import { useState } from "react";
 import VerticalMenu from "./Menu/SideMenu/SideMenuSection";
 import Image from "next/image";
+import { AccountMenu } from "../features/account-menu";
 // import { COLORS } from "@/utils/constants";
 
 export type MenuType = typeof menuData;
@@ -76,7 +77,9 @@ const Header = () => {
           >
             Đăng nhập
           </Link>
-          <Link href="/profile">Chào Nguyễn Hữu Minh</Link>
+
+          <AccountMenu userName="Nguyễn Hữu Minh" />
+
           <IconButton>
             <LanguageIcon sx={{ fontSize: 25 }} />
           </IconButton>
