@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "yarn build:env && next build",
+    "build:env": "tsc scripts/set-environment-variables.ts && node scripts/set-environment-variables.js ; rm scripts/set-environment-variables.js",
     "start": "next start",
     "lint": "next lint"
   },
@@ -38,6 +39,7 @@
     "next": "13.4.5",
     "next-auth": "^4.24.5",
     "next-seo": "^6.1.0",
+    "node-fetch": "^3.3.2",
     "nodemailer": "^6.9.7",
     "react": "18.2.0",
     "react-alice-carousel": "^2.8.0",
