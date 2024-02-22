@@ -138,9 +138,7 @@ const News: NextPage<Props> = ({ news, rightOtherNews, content }) => {
     }
   }, [news]);
 
-  const handleShareViaEmail = async (e: any) => {
-    e.preventDefault();
-
+  const handleShareViaEmail = async () => {
     try {
       const response = await fetch('/api/your-endpoint', {
         method: 'POST',
