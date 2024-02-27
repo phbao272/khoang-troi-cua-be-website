@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "yarn build:env && next build",
+    "build": "next build",
     "build:env": "tsc scripts/set-environment-variables.ts && node scripts/set-environment-variables.js ; rm scripts/set-environment-variables.js",
     "start": "next start",
     "lint": "next lint"
@@ -65,8 +65,5 @@
     "postcss": "^8.4.24",
     "prisma": "^5.7.1",
     "tailwindcss": "^3.3.2"
-  },
-  "resolutions": {
-    "@types/react": "^18.2.11"
   }
 }
