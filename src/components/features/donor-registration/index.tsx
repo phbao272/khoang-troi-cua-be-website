@@ -6,20 +6,21 @@ import {
   DonorRegistrationInputType,
 } from "./types";
 import { Button, Typography, Grid } from "@mui/material";
-import { Container } from "@/components/layouts/Container";
-import { toast } from "react-toastify";
+import { ContainerXL } from "@/components/layouts/ContainerXL";
 import ktcbBackground from "@public/mission-background.jpg";
 import { useRouter } from "next/router";
 import { DonorDonate, DonorInformation } from "./components";
+import ToastSuccess from "@/components/shared/toasts/ToastSuccess";
 
 export const DonorRegistration = () => {
   const router = useRouter();
+  const [open, setOpen] = React.useState(false);
 
   const {
     control,
     handleSubmit,
     formState: { errors },
-    setError
+    setError,
   } = useForm<DonorRegistrationInputType>({
     resolver: zodResolver(DonorRegistrationInputSchema),
     defaultValues: {
@@ -37,24 +38,29 @@ export const DonorRegistration = () => {
   const onSubmit = handleSubmit((data) => {
     console.log(data);
 
-    toast.success("Xác nhận thành công. Cảm ơn đã gửi thông tin");
+    setOpen(true);
   });
 
   return (
-    <Container
+    <ContainerXL
       sx={{
         backgroundImage: `url(${ktcbBackground.src})`,
-        backgroundSize: "100% 100%;",
-        backgroundPosition: "center",
+        backgroundSize: "cover",
+        backgroundPosition: "top",
       }}
     >
       <div className="flex flex-col mt-9 gap-4">
-        <div className="flex items-center gap-2">
+        <ToastSuccess
+          open={open}
+          onClose={() => setOpen(false)}
+          heading="Xác nhận thành công"
+          content="Cảm ơn đã gửi thông tin"
+        />
+        <div className="flex items-center justify-center gap-2">
           <Button
             variant="contained"
             sx={{
               width: "fit-content",
-              color: "#fff",
             }}
             color="secondary"
             onClick={() => router.push("/member-registration")}
@@ -65,7 +71,6 @@ export const DonorRegistration = () => {
             variant="contained"
             sx={{
               width: "fit-content",
-              color: "#fff",
             }}
             disabled
             color="secondary"
@@ -83,7 +88,11 @@ export const DonorRegistration = () => {
           <Grid item xs={12} md={9}>
             <DonorInformation control={control} errors={errors} />
 
-            <DonorDonate control={control} errors={errors} setError={setError}/>
+            <DonorDonate
+              control={control}
+              errors={errors}
+              setError={setError}
+            />
           </Grid>
           <Grid item xs={12} md={3}>
             <div className="w-[150px] h-[150px] border-solid border-2 border-black">
@@ -98,7 +107,6 @@ export const DonorRegistration = () => {
             marginTop: "1rem",
             width: "fit-content",
             alignSelf: "center",
-            color: "#fff",
           }}
           color="secondary"
           onClick={onSubmit}
@@ -106,6 +114,6 @@ export const DonorRegistration = () => {
           Gửi thông tin
         </Button>
       </div>
-    </Container>
+    </ContainerXL>
   );
 };

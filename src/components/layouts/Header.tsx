@@ -1,6 +1,6 @@
 import LanguageIcon from "@mui/icons-material/Language";
 import MenuIcon from "@mui/icons-material/Menu";
-import { Box, IconButton, Paper, Stack, Typography } from "@mui/material";
+import { Box, IconButton, Stack } from "@mui/material";
 import Drawer from "@mui/material/Drawer";
 import Link from "next/link";
 import menuData from "../../utils/data/json/header.json";
@@ -9,6 +9,8 @@ import logoNoBackground from "../../../public/ktcb_logo_no_background.png";
 import MenuSection from "./Menu";
 import { useState } from "react";
 import VerticalMenu from "./Menu/SideMenu/SideMenuSection";
+import Image from "next/image";
+import { AccountMenu } from "../features/account-menu";
 // import { COLORS } from "@/utils/constants";
 
 export type MenuType = typeof menuData;
@@ -48,14 +50,12 @@ const Header = () => {
           <MenuIcon sx={{ fontSize: 30 }} />
         </IconButton>
         <Link href="/" className="flex items-center">
-          <Box
-            component="img"
-            maxHeight={70}
-            width={70}
+          <Image
             src={logoNoBackground.src}
             alt="logoNoBackground"
-            loading="lazy"
-          ></Box>
+            width={70}
+            height={70}
+          />
         </Link>
         <Box display={["none", "none", "none", "block"]}>
           <Stack
@@ -70,14 +70,20 @@ const Header = () => {
           </Stack>
         </Box>
 
-        <div className="flex items-center gap-1">
-          <Link href="/profile">
-            <p>Chào Nguyễn Hữu Minh</p>
+        <Stack direction="row" alignItems="center" gap="12px">
+          <Link
+            href="/login"
+            className="text-sm font-semibold hover:opacity-80 cursor-pointer"
+          >
+            Đăng nhập
           </Link>
+
+          <AccountMenu userName="Nguyễn Hữu Minh" />
+
           <IconButton>
             <LanguageIcon sx={{ fontSize: 25 }} />
           </IconButton>
-        </div>
+        </Stack>
       </Stack>
 
       <Drawer anchor="left" open={openSideMenu} onClose={handleToggleSideMenu}>
