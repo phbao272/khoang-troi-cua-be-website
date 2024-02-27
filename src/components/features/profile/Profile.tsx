@@ -2,13 +2,17 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ProfileInputSchema, ProfileInputType } from "./types";
-import { Button } from "@mui/material";
-import { Container } from "@/components/layouts/Container";
+import { Button, Typography } from "@mui/material";
+import ktcbBackground from "@public/mission-background.jpg";
 
 import { Controller } from "react-hook-form";
 import { Grid } from "@mui/material";
-import { Input } from "@/components/shared/inputs";
+import { Input, SelectBox } from "@/components/shared/inputs";
 import { DatePicker } from "@/components/shared/inputs/time-picker";
+import { ContainerXL } from "@/components/layouts/ContainerXL";
+import ToastSuccess from "@/components/shared/toasts/ToastSuccess";
+import { useRouter } from "next/router";
+import { IBankVietQR } from "@/@types/common";
 
 const COL_SPAN = {
   xs: 12,
@@ -16,11 +20,18 @@ const COL_SPAN = {
   md: 4,
 };
 
-export const Profile = () => {
+interface ProfileProps {
+  banks: IBankVietQR[];
+}
+
+export const Profile: React.FC<ProfileProps> = ({ banks }) => {
+  const router = useRouter();
+  const [open, setOpen] = React.useState(false);
+
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm<ProfileInputType>({
     resolver: zodResolver(ProfileInputSchema),
     defaultValues: {
@@ -31,16 +42,60 @@ export const Profile = () => {
       address: "",
       work_place: "",
       bank_account: "",
+      bank: "",
     },
   });
 
   const onSubmit = handleSubmit((data) => {
     console.log(data);
+
+    setOpen(true);
   });
 
   return (
-    <Container>
+    <ContainerXL
+      sx={{
+        backgroundImage: `url(${ktcbBackground.src})`,
+        backgroundSize: "cover",
+        backgroundPosition: "top",
+        paddingBottom: "2rem",
+      }}
+    >
       <div className="flex flex-col mt-9 gap-4">
+        <ToastSuccess
+          open={open}
+          onClose={() => setOpen(false)}
+          heading="Xác nhận thành công"
+          content="Cảm ơn đã gửi thông tin"
+        />
+        <div className="flex justify-center items-center gap-2">
+          <Button
+            variant="contained"
+            sx={{
+              width: "fit-content",
+            }}
+            disabled
+            color="secondary"
+            onClick={() => router.push("/profile")}
+          >
+            Chỉnh sửa thông tin cá nhân
+          </Button>
+          <Button
+            variant="contained"
+            sx={{
+              width: "fit-content",
+            }}
+            color="secondary"
+            onClick={() => router.push("/change-password")}
+          >
+            Đổi mật khẩu
+          </Button>
+        </div>
+
+        <Typography fontSize={28} fontWeight={"bold"}>
+          Thông tin cá nhân
+        </Typography>
+
         <Grid container spacing={2}>
           <Grid item {...COL_SPAN}>
             <Controller
@@ -158,11 +213,34 @@ export const Profile = () => {
 
           <Grid item {...COL_SPAN}>
             <Controller
+              name="bank"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <SelectBox
+                  label={"Ngân hàng"}
+                  required
+                  fullWidth
+                  value={value}
+                  onChange={onChange}
+                  error={!!errors.bank?.message}
+                  helperText={errors.bank?.message}
+                  options={banks.map((bank) => ({
+                    label: `${bank.name} (${bank.short_name})`,
+                    value: bank.short_name,
+                  }))}
+                  placeholder={"Nhập ngân hàng"}
+                />
+              )}
+            />
+          </Grid>
+
+          <Grid item {...COL_SPAN}>
+            <Controller
               name="bank_account"
               control={control}
               render={({ field: { onChange, value } }) => (
                 <Input
-                  label={"Số tài khoản"}
+                  label={"Số tài khoản ngân hàng"}
                   required
                   fullWidth
                   placeholder={"Nhập số tài khoản"}
@@ -177,12 +255,12 @@ export const Profile = () => {
         </Grid>
 
         <Button
+          disabled={!isDirty}
           variant="contained"
           sx={{
             marginTop: "1rem",
             width: "fit-content",
             alignSelf: "center",
-            color: "#fff",
           }}
           color="secondary"
           onClick={onSubmit}
@@ -190,6 +268,6 @@ export const Profile = () => {
           Cập nhật
         </Button>
       </div>
-    </Container>
+    </ContainerXL>
   );
 };

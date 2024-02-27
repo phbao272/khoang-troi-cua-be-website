@@ -6,7 +6,7 @@ import {
 import React from "react";
 import { InputControl } from "./components/InputControl";
 
-type Props = {
+export type InputProps = {
   helperText?: string;
   error?: boolean;
   required?: boolean;
@@ -16,7 +16,7 @@ type Props = {
   startAdornmentIcon?: React.ReactNode;
 } & OutlinedInputProps;
 
-const Input: React.FC<Props> = ({
+const Input: React.FC<InputProps> = ({
   required = false,
   fullWidth = false,
   helperText,

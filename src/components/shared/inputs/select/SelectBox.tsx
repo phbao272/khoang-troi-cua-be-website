@@ -1,5 +1,6 @@
 import { SyntheticEvent, useEffect, useState } from "react";
 import { InputControl } from "../components/InputControl";
+import classNames from "classnames";
 
 export type SelectOption = {
   label: string;
@@ -65,7 +66,12 @@ const SelectBox = ({
       <select
         value={_value as string | number}
         onChange={handleChangeValue}
-        className="rounded-md border min-w-[120px] border-gray-300 px-2 py-2 focus:border-[#556cd6] h-[40px] bg-transparent bg-white"
+        className={classNames(
+          "rounded-md border min-w-[120px] border-gray-300 px-2 py-2 focus:border-[#556cd6] h-[40px] bg-transparent bg-white",
+          {
+            "border-red-600": error,
+          }
+        )}
         {...props}
       >
         {placeholder && (
