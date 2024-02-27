@@ -4,11 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && next build",
+    "build": "next build",
     "build:env": "tsc scripts/set-environment-variables.ts && node scripts/set-environment-variables.js ; rm scripts/set-environment-variables.js",
     "start": "next start",
-    "lint": "next lint",
-    "postinstall": "prisma generate"
+    "lint": "next lint"
   },
   "prisma": {
     "schema": "src/db/schema.prisma",
