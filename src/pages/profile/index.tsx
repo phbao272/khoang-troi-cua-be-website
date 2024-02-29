@@ -20,7 +20,12 @@ const ProfilePage = ({ banks }: ProfilePageProps) => {
 
 export default ProfilePage;
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  context.res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=10, stale-while-revalidate=59"
+  );
+
   const res = await fetch("https://api.vietqr.io/v2/banks");
 
   const json = await res.json();
