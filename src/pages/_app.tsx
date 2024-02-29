@@ -1,3 +1,4 @@
+import { SessionProvider } from "next-auth/react"
 import Layout from "@/components/layouts";
 import createEmotionCache from "@/libs/mui/createEmotionCache";
 import theme from "@/libs/mui/theme";
@@ -9,6 +10,7 @@ import { Hydrate, QueryClientProvider } from "@tanstack/react-query";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { CssBaseline } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
@@ -22,9 +24,9 @@ export interface MyAppProps extends AppProps {
 }
 
 export default function App(props: MyAppProps) {
-  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+  const { Component, emotionCache = clientSideEmotionCache, pageProps: { session, ...pageProps } } = props;
 
-  const [hydated, seHydrated] = useState(false);
+  const [hydrated, seHydrated] = useState(false);
 
   useEffect(() => {
     seHydrated(true);
@@ -41,9 +43,11 @@ export default function App(props: MyAppProps) {
             <ThemeProvider theme={theme}>
               <ToastContainer />
               <CssBaseline />
-              {hydated && (
+              {hydrated && (
                 <Layout>
-                  <Component {...pageProps} />
+                  <SessionProvider session={session}>
+                    <Component {...pageProps} />
+                  </SessionProvider>
                 </Layout>
               )}
             </ThemeProvider>
@@ -51,6 +55,7 @@ export default function App(props: MyAppProps) {
         </Hydrate>
       </QueryClientProvider>
       <Analytics />
+      <SpeedInsights />
     </CacheProvider>
   );
 }

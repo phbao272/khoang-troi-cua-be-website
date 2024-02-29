@@ -7,6 +7,8 @@ import Link from "next/link";
 import { Controller, useForm } from "react-hook-form";
 import { Input } from "@/components/shared/inputs";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 import { notEmptyMessage } from "@/utils/common";
 import { z } from "zod";
@@ -27,6 +29,7 @@ export const LoginInputSchema = z.object({
 });
 
 export default function Login() {
+  const router = useRouter();
   const {
     control,
     handleSubmit,
@@ -39,8 +42,21 @@ export default function Login() {
     },
   });
 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data);
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      const res = await signIn("credentials", {
+        redirect: false,
+        email: data.email,
+        password: data.password
+      });
+
+      console.log(res);
+      if (!res?.error) {
+        router.push('/');
+      }
+    } catch (error: any) {
+      console.log(error);
+    }
   });
 
   return (
