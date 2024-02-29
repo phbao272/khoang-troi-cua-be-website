@@ -73,22 +73,24 @@ export const Profile: React.FC<ProfileProps> = ({ banks }) => {
             variant="contained"
             sx={{
               width: "fit-content",
+              textWrap: "nowrap",
             }}
             disabled
             color="secondary"
             onClick={() => router.push("/profile")}
           >
-            Chỉnh sửa thông tin cá nhân
+            Chỉnh sửa thông tin
           </Button>
           <Button
             variant="contained"
             sx={{
               width: "fit-content",
+              textWrap: "nowrap",
             }}
             color="secondary"
             onClick={() => router.push("/change-password")}
           >
-            Đổi mật khẩu
+            Thay đổi mật khẩu
           </Button>
         </div>
 

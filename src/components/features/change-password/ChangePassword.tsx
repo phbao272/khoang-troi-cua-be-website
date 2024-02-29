@@ -62,31 +62,33 @@ export const ChangePassword = () => {
             variant="contained"
             sx={{
               width: "fit-content",
+              textWrap: "nowrap",
             }}
             color="secondary"
             onClick={() => router.push("/profile")}
           >
-            Chỉnh sửa thông tin cá nhân
+            Chỉnh sửa thông tin
           </Button>
           <Button
             variant="contained"
             sx={{
               width: "fit-content",
+              textWrap: "nowrap",
             }}
             disabled
             color="secondary"
             onClick={() => router.push("/change-password")}
           >
-            Đổi mật khẩu
+            Thay đổi mật khẩu
           </Button>
         </div>
 
-        <Typography fontSize={28} fontWeight={"bold"}>
+        <Typography fontSize={28} fontWeight={"bold"} className="text-center">
           Mật khẩu
         </Typography>
 
-        <Grid container>
-          <Grid container item xs={12} md={4} spacing={2}>
+        <Grid container className="justify-center">
+          <Grid container item xs={12} sm={8} md={6} lg={4} spacing={2}>
             <Grid item xs={12}>
               <Controller
                 name="current_password"
