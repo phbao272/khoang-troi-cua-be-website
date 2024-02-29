@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && yarn build:env && next build",
+    "build": "prisma generate && next build",
     "build:env": "tsc scripts/set-environment-variables.ts && node scripts/set-environment-variables.js ; rm scripts/set-environment-variables.js",
     "start": "next start",
     "lint": "next lint"
