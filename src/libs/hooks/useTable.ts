@@ -25,13 +25,18 @@ export const useTable = <T extends MRT_RowData>({
     enableColumnActions: false,
     enableColumnFilters: false,
     enableSorting: false,
+    enablePagination: false,
     enableFullScreenToggle: false,
     enableHiding: false,
+    mrtTheme: (theme) => ({
+      baseBackgroundColor: theme.palette.background.default,
+    }),
 
     muiTableBodyRowProps: { hover: false },
     muiTableProps: {
       sx: {
-        border: "1px solid #ccc",
+        boxShadow: "none",
+        borderRadius: "none",
       },
     },
     muiTableHeadCellProps: {
@@ -45,6 +50,7 @@ export const useTable = <T extends MRT_RowData>({
         border: "1px solid #ccc",
       },
     },
+
     ...props,
   });
 

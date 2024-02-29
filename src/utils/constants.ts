@@ -31,10 +31,11 @@ export const KIND_OF_DONATION_OPTIONS = [
   {
     value: "2",
     label: "Hiện vật",
-  }
+  },
 ];
 
 export const ACTIONS = {
   ACCEPT: "accept",
   REJECT: "reject",
+  ACCEPT_INTERVIEW: "accept_interview",
 };

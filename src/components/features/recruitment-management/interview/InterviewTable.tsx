@@ -1,20 +1,34 @@
 import { useMemo, useState } from "react";
 import { MaterialReactTable, type MRT_ColumnDef } from "material-react-table";
 import { useTable } from "@/libs/hooks/useTable";
-import { MenuItem, Tooltip, Typography } from "@mui/material";
+import { IconButton, MenuItem, Tooltip, Typography } from "@mui/material";
 import { IMember } from "@/@types/member";
 import { ellipsisText } from "@/utils/common";
 import { ModalConfirm } from "@/components/shared/modals";
 import { ACTIONS } from "@/utils/constants";
 import { useDisclosure } from "@/libs/hooks/useDisclosure";
 import { ActionType } from "@/@types/common";
-import { toast } from "react-toastify";
+
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import ClearIcon from "@mui/icons-material/Clear";
+import ToastSuccess from "@/components/shared/toasts/ToastSuccess";
 
 interface Person extends IMember {
   date_time: string;
   test_id: number;
   link_gg_met: string;
 }
+
+const TEXT_TOAST = {
+  [ACTIONS["ACCEPT"]]: "Xác nhận thành viên chính thức thành công!",
+  [ACTIONS["REJECT"]]: "Xác nhận loại đơn tuyển thành công",
+};
+
+const TEXT_CONFIRM = {
+  [ACTIONS["ACCEPT"]]: "Xác nhận chuyển đơn tuyển sang THÀNH VIÊN CHÍNH THỨC",
+  [ACTIONS["REJECT"]]: "Xác nhận LOẠI đơn tuyển",
+};
 
 const data: Person[] = [
   {
@@ -113,69 +127,69 @@ const InterviewTable = () => {
         header: "Ngày sinh",
         size: 150,
       },
-      {
-        accessorKey: "phone_number",
-        header: "Số điện thoại",
-        size: 150,
-      },
-      {
-        accessorKey: "address",
-        header: "Khu vực sống",
-        size: 150,
-      },
-      {
-        accessorKey: "work_place",
-        header: "Nơi làm việc",
-        size: 150,
-      },
-      {
-        accessorKey: "has_social_activities",
-        header: "Đã từng tham gia hoạt động xã hội",
-        size: 200,
-      },
-      {
-        accessorKey: "memories",
-        header: "Kỷ niệm đáng nhớ khi tham gia hoạt động xã hội",
-        size: 200,
-        Cell({ row }) {
-          return (
-            <Tooltip title={row.original.memories}>
-              <Typography
-                sx={{
-                  ...ellipsisText(2),
-                  fontSize: "14px",
-                }}
-              >
-                {row.original.memories}
-              </Typography>
-            </Tooltip>
-          );
-        },
-      },
-      {
-        accessorKey: "position",
-        header: "Vị trí mong muốn trong KTCB",
-        size: 150,
-      },
-      {
-        accessorKey: "hope_to_receive",
-        header: "Điều mong muốn nhận khi tham gia KTCB",
-        size: 200,
-        Cell({ row }) {
-          return (
-            <Tooltip title={row.original.hope_to_receive}>
-              <Typography
-                sx={{
-                  ...ellipsisText(2),
-                  fontSize: "14px",
-                }}
-              >
-                {row.original.hope_to_receive}
-              </Typography>
-            </Tooltip>
-          );
-        },
-      },
+      // {
+      //   accessorKey: "phone_number",
+      //   header: "Số điện thoại",
+      //   size: 150,
+      // },
+      // {
+      //   accessorKey: "address",
+      //   header: "Khu vực sống",
+      //   size: 150,
+      // },
+      // {
+      //   accessorKey: "work_place",
+      //   header: "Nơi làm việc",
+      //   size: 150,
+      // },
+      // {
+      //   accessorKey: "has_social_activities",
+      //   header: "Đã từng tham gia hoạt động xã hội",
+      //   size: 200,
+      // },
+      // {
+      //   accessorKey: "memories",
+      //   header: "Kỷ niệm đáng nhớ khi tham gia hoạt động xã hội",
+      //   size: 200,
+      //   Cell({ row }) {
+      //     return (
+      //       <Tooltip title={row.original.memories}>
+      //         <Typography
+      //           sx={{
+      //             ...ellipsisText(2),
+      //             fontSize: "14px",
+      //           }}
+      //         >
+      //           {row.original.memories}
+      //         </Typography>
+      //       </Tooltip>
+      //     );
+      //   },
+      // },
+      // {
+      //   accessorKey: "position",
+      //   header: "Vị trí mong muốn trong KTCB",
+      //   size: 150,
+      // },
+      // {
+      //   accessorKey: "hope_to_receive",
+      //   header: "Điều mong muốn nhận khi tham gia KTCB",
+      //   size: 200,
+      //   Cell({ row }) {
+      //     return (
+      //       <Tooltip title={row.original.hope_to_receive}>
+      //         <Typography
+      //           sx={{
+      //             ...ellipsisText(2),
+      //             fontSize: "14px",
+      //           }}
+      //         >
+      //           {row.original.hope_to_receive}
+      //         </Typography>
+      //       </Tooltip>
+      //     );
+      //   },
+      // },
       {
         accessorKey: "link_gg_met",
         header: "Link Google Meet",
@@ -203,6 +217,9 @@ const InterviewTable = () => {
   );
 
   const [opened, { open, close }] = useDisclosure();
+
+  const [openToast, setOpenToast] = useState(false);
+
   const [rowSelected, setRowSelected] = useState<Person>();
   const [action, setAction] = useState<ActionType>();
 
@@ -215,11 +232,7 @@ const InterviewTable = () => {
   const handleComfirm = () => {
     console.log("rowSelected", rowSelected);
 
-    if (action === ACTIONS["ACCEPT"]) {
-      toast.success("Duyệt thành công");
-    } else if (action === ACTIONS["REJECT"]) {
-      toast.success("Không duyệt thành công");
-    }
+    setOpenToast(true);
 
     close();
   };
@@ -228,24 +241,37 @@ const InterviewTable = () => {
     columns,
     data,
     enableRowActions: true,
+    renderTopToolbar: () => <div />,
+    renderBottomToolbar: () => <div />,
     renderRowActions: ({ row }) => (
       <div className="flex items-center justify-center min-w-">
-        <button
-          className={`flex items-center justify-center w-8 h-8 mr-2 text-white bg-green-700 rounded-full hover:bg-green-600`}
-          onClick={() =>
-            handleOpenModal(row.original, ACTIONS["ACCEPT"] as ActionType)
-          }
-        >
-          V
-        </button>
-        <button
-          className={`flex items-center justify-center w-8 h-8 mr-2 text-white bg-red-700 rounded-full hover:bg-red-600`}
-          onClick={() =>
-            handleOpenModal(row.original, ACTIONS["REJECT"] as ActionType)
-          }
-        >
-          X
-        </button>
+        <Tooltip title="Xem hồ sơ của đơn tuyển">
+          <IconButton
+            onClick={() => {
+              console.log("row.original", row.original);
+            }}
+          >
+            <VisibilityIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Chuyển đơn tuyển sang thành viên chính thức">
+          <IconButton
+            onClick={() =>
+              handleOpenModal(row.original, ACTIONS["ACCEPT"] as ActionType)
+            }
+          >
+            <PeopleAltIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Loại đơn tuyển">
+          <IconButton
+            onClick={() =>
+              handleOpenModal(row.original, ACTIONS["REJECT"] as ActionType)
+            }
+          >
+            <ClearIcon />
+          </IconButton>
+        </Tooltip>
       </div>
     ),
     positionActionsColumn: "last",
@@ -254,15 +280,18 @@ const InterviewTable = () => {
   return (
     <>
       <MaterialReactTable table={table} />
+
+      <ToastSuccess
+        open={openToast}
+        onClose={() => setOpenToast(false)}
+        heading="Xác nhận thành công"
+        content={`${TEXT_TOAST[action as ActionType]}`}
+      />
       <ModalConfirm
-        title={`Xác nhận ${
-          action === ACTIONS["ACCEPT"] ? "DUYỆT" : "KHÔNG DUYỆT"
-        } tham gia phỏng vấn`}
+        title={`Thông báo xác nhận`}
         open={opened}
         onClose={close}
-        content={`Bạn xác nhận ${
-          action === ACTIONS["ACCEPT"] ? "DUYỆT" : "KHÔNG DUYỆT"
-        } tham gia phỏng vấn?`}
+        content={`${TEXT_CONFIRM[action as ActionType]}`}
         onConfirm={handleComfirm}
       />
     </>
