@@ -12,7 +12,7 @@ import { DatePicker } from "@/components/shared/inputs/time-picker";
 import { ContainerXL } from "@/components/layouts/ContainerXL";
 import ToastSuccess from "@/components/shared/toasts/ToastSuccess";
 import { useRouter } from "next/router";
-import { IBankVietQR } from "@/@types/common";
+import { BANKS } from "@/utils/constants";
 
 const COL_SPAN = {
   xs: 12,
@@ -20,11 +20,7 @@ const COL_SPAN = {
   md: 4,
 };
 
-interface ProfileProps {
-  banks: IBankVietQR[];
-}
-
-export const Profile: React.FC<ProfileProps> = ({ banks }) => {
+export const Profile = () => {
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
 
@@ -94,7 +90,7 @@ export const Profile: React.FC<ProfileProps> = ({ banks }) => {
           </Button>
         </div>
 
-        <Typography fontSize={28} fontWeight={"bold"}>
+        <Typography fontSize={28} fontWeight={"bold"} className="text-center">
           Thông tin cá nhân
         </Typography>
 
@@ -226,7 +222,7 @@ export const Profile: React.FC<ProfileProps> = ({ banks }) => {
                   onChange={onChange}
                   error={!!errors.bank?.message}
                   helperText={errors.bank?.message}
-                  options={banks.map((bank) => ({
+                  options={BANKS.map((bank) => ({
                     label: `${bank.name} (${bank.short_name})`,
                     value: bank.short_name,
                   }))}
