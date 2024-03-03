@@ -5,7 +5,7 @@ import {
 import { ContainerXL } from "@/components/layouts/ContainerXL";
 import ToastSuccess from "@/components/shared/toasts/ToastSuccess";
 import { SEO } from "@/configs/seo.config";
-import { Box, Button } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { DefaultSeo } from "next-seo";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -64,6 +64,13 @@ const RecruitmentManagementPage = () => {
             Vòng phỏng vấn
           </Button>
         </div>
+
+        <Typography fontSize={28} fontWeight={"bold"}>
+          {watch("tabIndex") === 0
+            ? "Danh sách đơn tuyển"
+            : "Danh sách phỏng vấn"}
+        </Typography>
+
         {tabElement.map((e, index) => {
           return (
             <div hidden={watch("tabIndex") !== index} key={index}>

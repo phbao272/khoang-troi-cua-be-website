@@ -43,11 +43,21 @@ export const useTable = <T extends MRT_RowData>({
       sx: {
         border: "1px solid #ccc",
         fontWeight: "500",
+        textTransform: "uppercase",
+        justifyContent: "center",
+        fontSize: "18px",
+        flex: 1,
+
+        "& .Mui-TableHeadCell-Content": {
+          display: "flex",
+          justifyContent: "center",
+        },
       },
     },
     muiTableBodyCellProps: {
       sx: {
         border: "1px solid #ccc",
+        fontSize: "16px",
       },
     },
 
