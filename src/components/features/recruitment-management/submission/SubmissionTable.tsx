@@ -15,8 +15,9 @@ import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import MicIcon from "@mui/icons-material/Mic";
 import ClearIcon from "@mui/icons-material/Clear";
 import ToastSuccess from "@/components/shared/toasts/ToastSuccess";
+import { SubmissionDetail } from "./SubmissionDetail";
 
-interface Person extends IMember {
+export interface Person extends IMember {
   date_time?: string;
   test_id?: number;
 }
@@ -209,19 +210,20 @@ const SubmissionTable = () => {
 
   const [opened, { open, close }] = useDisclosure();
   const [openToast, setOpenToast] = useState(false);
+  const [openedDetail, { open: openDetail, close: closeDetail }] =
+    useDisclosure();
 
   const [rowSelected, setRowSelected] = useState<Person>();
   const [action, setAction] = useState<ActionTypeAdd>();
 
-  const handleOpenModal = (person: Person, action: ActionTypeAdd) => {
-    open();
+  const handleOpenModal = (person: Person, action?: ActionTypeAdd) => {
+    action ? open() : openDetail();
+
     setRowSelected(person);
     setAction(action);
   };
 
   const handleComfirm = () => {
-    console.log("rowSelected", rowSelected);
-
     setOpenToast(true);
 
     close();
@@ -236,7 +238,7 @@ const SubmissionTable = () => {
     renderRowActions: ({ row }) => (
       <div className="flex items-center justify-center min-w-">
         <Tooltip title="Xem hồ sơ của đơn tuyển">
-          <IconButton onClick={() => console.log("row.original", row.original)}>
+          <IconButton onClick={() => handleOpenModal(row.original)}>
             <VisibilityIcon />
           </IconButton>
         </Tooltip>
@@ -291,6 +293,14 @@ const SubmissionTable = () => {
         content={`${TEXT_CONFIRM[action as ActionTypeAdd]}`}
         onConfirm={handleComfirm}
       />
+
+      {rowSelected && (
+        <SubmissionDetail
+          open={openedDetail}
+          onClose={closeDetail}
+          data={rowSelected!}
+        />
+      )}
     </>
   );
 };

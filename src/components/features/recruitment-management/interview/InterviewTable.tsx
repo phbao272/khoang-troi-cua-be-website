@@ -13,8 +13,9 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import ClearIcon from "@mui/icons-material/Clear";
 import ToastSuccess from "@/components/shared/toasts/ToastSuccess";
+import { InterviewDetail } from "./InterviewDetail";
 
-interface Person extends IMember {
+export interface Person extends IMember {
   date_time: string;
   test_id: number;
   link_gg_met: string;
@@ -217,21 +218,22 @@ const InterviewTable = () => {
   );
 
   const [opened, { open, close }] = useDisclosure();
+  const [openedDetail, { open: openDetail, close: closeDetail }] =
+    useDisclosure();
 
   const [openToast, setOpenToast] = useState(false);
 
   const [rowSelected, setRowSelected] = useState<Person>();
   const [action, setAction] = useState<ActionType>();
 
-  const handleOpenModal = (person: Person, action: ActionType) => {
-    open();
+  const handleOpenModal = (person: Person, action?: ActionType) => {
+    action ? open() : openDetail();
+
     setRowSelected(person);
     setAction(action);
   };
 
   const handleComfirm = () => {
-    console.log("rowSelected", rowSelected);
-
     setOpenToast(true);
 
     close();
@@ -246,11 +248,7 @@ const InterviewTable = () => {
     renderRowActions: ({ row }) => (
       <div className="flex items-center justify-center min-w-">
         <Tooltip title="Xem hồ sơ của đơn tuyển">
-          <IconButton
-            onClick={() => {
-              console.log("row.original", row.original);
-            }}
-          >
+          <IconButton onClick={() => handleOpenModal(row.original)}>
             <VisibilityIcon />
           </IconButton>
         </Tooltip>
@@ -294,6 +292,14 @@ const InterviewTable = () => {
         content={`${TEXT_CONFIRM[action as ActionType]}`}
         onConfirm={handleComfirm}
       />
+
+      {rowSelected && (
+        <InterviewDetail
+          open={openedDetail}
+          onClose={closeDetail}
+          data={rowSelected!}
+        />
+      )}
     </>
   );
 };
