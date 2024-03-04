@@ -22,7 +22,7 @@ export interface Person extends IMember {
   test_id?: number;
 }
 
-type ActionTypeAdd = ActionType | "accept_interview";
+export type ActionTypeAdd = ActionType | "accept_interview";
 
 const TEXT_TOAST = {
   [ACTIONS["ACCEPT"]]: "Xác nhận thành viên chính thức thành công!",
@@ -50,6 +50,8 @@ const data: Person[] = [
     position: "Thành viên",
     hope_to_receive:
       "Kinh nghiệm, kiến thức và trải nghiệm Kinh nghiệm, kiến thức và trải nghiệm Kinh nghiệm, kiến thức và trải nghiệm Kinh nghiệm, kiến thức và trải nghiệm Kinh nghiệm, kiến thức và trải nghiệm",
+    date_time: "2024-10-10 10:10:10",
+    test_id: 1,
   },
   {
     full_name: "123",
@@ -62,6 +64,8 @@ const data: Person[] = [
     memories: "Làm việc nhóm tốt",
     position: "Thành viên",
     hope_to_receive: "Kinh nghiệm, kiến thức và trải nghiệm",
+    date_time: "2024-01-10 10:10:10",
+    test_id: 1,
   },
   {
     full_name: "123",
@@ -74,6 +78,8 @@ const data: Person[] = [
     memories: "Làm việc nhóm tốt",
     position: "Thành viên",
     hope_to_receive: "Kinh nghiệm, kiến thức và trải nghiệm",
+    date_time: "2022-10-10 10:10:10",
+    test_id: 1,
   },
   {
     full_name: "123",
@@ -86,6 +92,8 @@ const data: Person[] = [
     memories: "Làm việc nhóm tốt",
     position: "Thành viên",
     hope_to_receive: "Kinh nghiệm, kiến thức và trải nghiệm",
+    date_time: "2022-10-10 10:10:10",
+    test_id: 1,
   },
   {
     full_name: "123",
@@ -98,6 +106,8 @@ const data: Person[] = [
     memories: "Làm việc nhóm tốt",
     position: "Thành viên",
     hope_to_receive: "Kinh nghiệm, kiến thức và trải nghiệm",
+    date_time: "2022-10-10 10:10:10",
+    test_id: 1,
   },
 ];
 
@@ -119,90 +129,15 @@ const SubmissionTable = () => {
         header: "Ngày sinh",
         size: 150,
       },
-      // {
-      //   accessorKey: "phone_number",
-      //   header: "Số điện thoại",
-      //   size: 150,
-      // },
-      // {
-      //   accessorKey: "address",
-      //   header: "Khu vực sống",
-      //   size: 150,
-      // },
-      // {
-      //   accessorKey: "work_place",
-      //   header: "Nơi làm việc",
-      //   size: 150,
-      // },
-      // {
-      //   accessorKey: "has_social_activities",
-      //   header: "Đã từng tham gia hoạt động xã hội",
-      //   size: 200,
-      // },
-      // {
-      //   accessorKey: "memories",
-      //   header: "Kỷ niệm đáng nhớ khi tham gia hoạt động xã hội",
-      //   size: 200,
-      //   Cell({ row }) {
-      //     return (
-      //       <Tooltip title={row.original.memories}>
-      //         <Typography
-      //           sx={{
-      //             ...ellipsisText(2),
-      //             fontSize: "14px",
-      //           }}
-      //         >
-      //           {row.original.memories}
-      //         </Typography>
-      //       </Tooltip>
-      //     );
-      //   },
-      // },
-      // {
-      //   accessorKey: "position",
-      //   header: "Vị trí mong muốn trong KTCB",
-      //   size: 150,
-      // },
-      // {
-      //   accessorKey: "hope_to_receive",
-      //   header: "Điều mong muốn nhận khi tham gia KTCB",
-      //   size: 200,
-      //   Cell({ row }) {
-      //     return (
-      //       <Tooltip title={row.original.hope_to_receive}>
-      //         <Typography
-      //           sx={{
-      //             ...ellipsisText(2),
-      //             fontSize: "14px",
-      //           }}
-      //         >
-      //           {row.original.hope_to_receive}
-      //         </Typography>
-      //       </Tooltip>
-      //     );
-      //   },
-      // },
       {
         accessorKey: "date_time",
         header: "Ngày giờ phỏng vấn",
         size: 150,
-        Cell(props) {
-          return <DatetimePicker onChange={(e) => console.log(e)} />;
-        },
       },
       {
         accessorKey: "test_id",
         header: "Bài test",
         size: 150,
-        Cell(props) {
-          return (
-            <SelectBox
-              options={TestOptions}
-              value={""}
-              onChange={(value) => console.log(value)}
-            />
-          );
-        },
       },
     ],
     []
@@ -225,7 +160,7 @@ const SubmissionTable = () => {
 
   const handleComfirm = () => {
     setOpenToast(true);
-
+    closeDetail();
     close();
   };
 
@@ -299,6 +234,7 @@ const SubmissionTable = () => {
           open={openedDetail}
           onClose={closeDetail}
           data={rowSelected!}
+          handleOpenModal={handleOpenModal}
         />
       )}
     </>

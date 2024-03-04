@@ -43,7 +43,7 @@ const data: Person[] = [
     memories: "Làm việc nhóm tốt",
     position: "Thành viên",
     hope_to_receive: "Kinh nghiệm, kiến thức và trải nghiệm",
-    date_time: "20/12/2023 12:00:00",
+    date_time: "2022-10-10 10:10:10",
     test_id: 1,
     link_gg_met: "https://meet.google.com/lookup/abc",
   },
@@ -58,7 +58,7 @@ const data: Person[] = [
     memories: "Làm việc nhóm tốt",
     position: "Thành viên",
     hope_to_receive: "Kinh nghiệm, kiến thức và trải nghiệm",
-    date_time: "20/12/2023 12:00:00",
+    date_time: "2022-10-10 10:10:10",
     test_id: 1,
     link_gg_met: "https://meet.google.com/lookup/abc",
   },
@@ -74,7 +74,7 @@ const data: Person[] = [
       "Làm việc nhóm tốt Làm việc nhóm tốt Làm việc nhóm tốt Làm việc nhóm tốt Làm việc nhóm tốt Làm việc nhóm tốt Làm việc nhóm tốt Làm việc nhóm tốt Làm việc nhóm tốtLàm việc nhóm tốtLàm việc nhóm tốt Làm việc nhóm tốt Làm việc nhóm tốt ",
     position: "Thành viên",
     hope_to_receive: "Kinh nghiệm, kiến thức và trải nghiệm",
-    date_time: "20/12/2023 12:00:00",
+    date_time: "2022-10-10 10:10:10",
     test_id: 1,
     link_gg_met: "https://meet.google.com/lookup/abc",
   },
@@ -89,7 +89,7 @@ const data: Person[] = [
     memories: "Làm việc nhóm tốt",
     position: "Thành viên",
     hope_to_receive: "Kinh nghiệm, kiến thức và trải nghiệm",
-    date_time: "20/12/2023 12:00:00",
+    date_time: "2022-10-10 10:10:10",
     test_id: 1,
     link_gg_met: "https://meet.google.com/lookup/abc",
   },
@@ -104,7 +104,7 @@ const data: Person[] = [
     memories: "Làm việc nhóm tốt",
     position: "Thành viên",
     hope_to_receive: "Kinh nghiệm, kiến thức và trải nghiệm",
-    date_time: "20/12/2023 12:00:00",
+    date_time: "2022-10-10 10:10:10",
     test_id: 1,
     link_gg_met: "https://meet.google.com/lookup/abc",
   },
@@ -128,69 +128,6 @@ const InterviewTable = () => {
         header: "Ngày sinh",
         size: 150,
       },
-      // {
-      //   accessorKey: "phone_number",
-      //   header: "Số điện thoại",
-      //   size: 150,
-      // },
-      // {
-      //   accessorKey: "address",
-      //   header: "Khu vực sống",
-      //   size: 150,
-      // },
-      // {
-      //   accessorKey: "work_place",
-      //   header: "Nơi làm việc",
-      //   size: 150,
-      // },
-      // {
-      //   accessorKey: "has_social_activities",
-      //   header: "Đã từng tham gia hoạt động xã hội",
-      //   size: 200,
-      // },
-      // {
-      //   accessorKey: "memories",
-      //   header: "Kỷ niệm đáng nhớ khi tham gia hoạt động xã hội",
-      //   size: 200,
-      //   Cell({ row }) {
-      //     return (
-      //       <Tooltip title={row.original.memories}>
-      //         <Typography
-      //           sx={{
-      //             ...ellipsisText(2),
-      //             fontSize: "14px",
-      //           }}
-      //         >
-      //           {row.original.memories}
-      //         </Typography>
-      //       </Tooltip>
-      //     );
-      //   },
-      // },
-      // {
-      //   accessorKey: "position",
-      //   header: "Vị trí mong muốn trong KTCB",
-      //   size: 150,
-      // },
-      // {
-      //   accessorKey: "hope_to_receive",
-      //   header: "Điều mong muốn nhận khi tham gia KTCB",
-      //   size: 200,
-      //   Cell({ row }) {
-      //     return (
-      //       <Tooltip title={row.original.hope_to_receive}>
-      //         <Typography
-      //           sx={{
-      //             ...ellipsisText(2),
-      //             fontSize: "14px",
-      //           }}
-      //         >
-      //           {row.original.hope_to_receive}
-      //         </Typography>
-      //       </Tooltip>
-      //     );
-      //   },
-      // },
       {
         accessorKey: "link_gg_met",
         header: "Link Google Meet",
@@ -235,7 +172,7 @@ const InterviewTable = () => {
 
   const handleComfirm = () => {
     setOpenToast(true);
-
+    closeDetail();
     close();
   };
 
@@ -298,8 +235,7 @@ const InterviewTable = () => {
           open={openedDetail}
           onClose={closeDetail}
           data={rowSelected!}
-          openConfirm={open}
-          openDetail={openDetail}
+          handleOpenModal={handleOpenModal}
         />
       )}
     </>

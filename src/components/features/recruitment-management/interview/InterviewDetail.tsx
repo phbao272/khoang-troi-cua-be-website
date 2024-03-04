@@ -8,72 +8,93 @@ import { ActionType } from "@/@types/common";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import ClearIcon from "@mui/icons-material/Clear";
 import { ACTIONS } from "@/utils/constants";
+import { format } from "date-fns";
 
 interface Props {
   data: Person;
   open: boolean;
   onClose: () => void;
-  openConfirm: () => void;
-  openDetail: () => void;
+  handleOpenModal: (person: Person, action?: ActionType) => void;
 }
 
-const classNameCol = "col-span-1";
+const classNameCol = "md:col-span-1 xs:col-span-2";
 
 export const InterviewDetail: React.FC<Props> = ({
   data,
   onClose,
   open,
-  openConfirm,
-  openDetail,
+  handleOpenModal,
 }) => {
-  const handleOpenModal = (action: ActionType) => {
-    action ? openConfirm() : openDetail();
-
-    // setAction(action);
-  };
-
   return (
     <Modal open={open} onClose={onClose}>
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 max-w-[80vw] w-full h-auto min-h-[700px] bg-white mx-auto">
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 max-w-[80vw] w-full h-auto bg-white mx-auto">
         <div className="grid grid-cols-6 h-full p-8">
-          <div className="col-span-4 grid grid-cols-2 gap-4">
-            <div className={classNameCol}>Họ và tên: {data.full_name}</div>
+          <div className="lg:col-span-4 col-span-6 grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className={classNameCol}>
-              Ngày tháng năm sinh: {data.birthday}
+              <span className="font-bold">Họ và tên: </span>
+              {data.full_name}
             </div>
-            <div className={classNameCol}>Email: {data.email}</div>
             <div className={classNameCol}>
-              Số điện thoại: {data.phone_number}
+              <span className="font-bold">Ngày tháng năm sinh: </span>
+              {data.birthday}
             </div>
-            <div className={classNameCol}>Nơi làm việc: {data.work_place}</div>
             <div className={classNameCol}>
-              Đã từng tham gia hoạt động xã hội:{" "}
+              <span className="font-bold">Email: </span>
+              {data.email}
+            </div>
+            <div className={classNameCol}>
+              <span className="font-bold">Số điện thoại: </span>
+              {data.phone_number}
+            </div>
+            <div className={classNameCol}>
+              <span className="font-bold">Nơi làm việc: </span>
+              {data.work_place}
+            </div>
+            <div className={classNameCol}>
+              <span className="font-bold">
+                Đã từng tham gia hoạt động xã hội:{" "}
+              </span>
+
               {data.has_social_activities ? "Có" : "Không"}
             </div>
             <div className={classNameCol}>
-              Kỷ niệm đáng nhớ khi tham gia hoạt động xã hội: {data.memories}
+              <span className="font-bold">
+                Kỷ niệm đáng nhớ khi tham gia hoạt động xã hội:{" "}
+              </span>
+              {data.memories}
             </div>
             <div className={classNameCol}>
-              Vị trí mong muốn: {data.position}
+              <span className="font-bold">Vị trí mong muốn: </span>
+              {data.position}
             </div>
             <div className={classNameCol}>
-              Điều mong muốn nhận khi tham gia KTCB: {data.hope_to_receive}
+              <span className="font-bold">
+                Điều mong muốn nhận khi tham gia KTCB:{" "}
+              </span>
+              {data.hope_to_receive}
             </div>
             <div className={classNameCol}>
-              Link GG meet:
+              <span className="font-bold">Link GG meet: </span>
               <a href={data.link_gg_met} target="_blank" className="underline">
                 {data.link_gg_met}
               </a>
             </div>
           </div>
 
-          <div className="col-span-2 gap-4 flex flex-col">
+          <div className="lg:col-span-2 col-span-6 gap-4 flex flex-col max-[1024px]:mt-4">
             <div className="flex flex-col gap-1">
-              <p>Chọn ngày giờ phỏng vấn</p>
-              <DatetimePicker onChange={(e) => console.log(e)} fullWidth />
+              <p className="font-bold">Chọn ngày giờ phỏng vấn</p>
+              <DatetimePicker
+                defaultValue={format(
+                  new Date(data?.date_time as string),
+                  "yyyy-MM-dd HH:mm"
+                )}
+                onChange={(e) => console.log(e)}
+                fullWidth
+              />
             </div>
             <div className="flex flex-col gap-1">
-              <p>Chọn bài test</p>
+              <p className="font-bold">Chọn bài test</p>
               <SelectBox
                 options={TestOptions}
                 value={""}
@@ -81,21 +102,21 @@ export const InterviewDetail: React.FC<Props> = ({
                 fullWidth
               />
             </div>
-            <div className="flex items-center justify-center min-w-">
+            <div className="flex items-center justify-start min-w-">
               <Tooltip title="Chuyển đơn tuyển sang thành viên chính thức">
                 <IconButton
-                  onClick={() =>
-                    handleOpenModal(ACTIONS["ACCEPT"] as ActionType)
-                  }
+                  onClick={() => {
+                    handleOpenModal(data, ACTIONS["ACCEPT"] as ActionType);
+                  }}
                 >
                   <PeopleAltIcon />
                 </IconButton>
               </Tooltip>
               <Tooltip title="Loại đơn tuyển">
                 <IconButton
-                  onClick={() =>
-                    handleOpenModal(ACTIONS["REJECT"] as ActionType)
-                  }
+                  onClick={() => {
+                    handleOpenModal(data, ACTIONS["REJECT"] as ActionType);
+                  }}
                 >
                   <ClearIcon />
                 </IconButton>
