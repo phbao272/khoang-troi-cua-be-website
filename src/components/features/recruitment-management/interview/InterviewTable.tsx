@@ -298,6 +298,8 @@ const InterviewTable = () => {
           open={openedDetail}
           onClose={closeDetail}
           data={rowSelected!}
+          openConfirm={open}
+          openDetail={openDetail}
         />
       )}
     </>
