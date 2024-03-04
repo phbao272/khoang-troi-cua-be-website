@@ -28,8 +28,8 @@ export const SubmissionDetail: React.FC<Props> = ({
 }) => {
   return (
     <Modal open={open} onClose={onClose}>
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 max-w-[80vw] w-full h-auto bg-white mx-auto">
-        <div className="grid grid-cols-6 h-full p-8">
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 max-w-[80vw] w-full h-auto max-h-[80vh] max-[768px]:overflow-y-scroll bg-white mx-auto">
+        <div className="grid grid-cols-6 h-full md:p-8 p-4">
           <div className="lg:col-span-4 col-span-6 grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className={classNameCol}>
               <span className="font-bold">Họ và tên: </span>
