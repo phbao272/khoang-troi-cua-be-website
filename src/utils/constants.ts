@@ -37,6 +37,7 @@ export const KIND_OF_DONATION_OPTIONS = [
 export const ACTIONS = {
   ACCEPT: "accept",
   REJECT: "reject",
+  ACCEPT_INTERVIEW: "accept_interview",
 };
 
 export const BANKS = [

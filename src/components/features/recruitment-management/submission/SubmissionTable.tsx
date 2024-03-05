@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { MaterialReactTable, type MRT_ColumnDef } from "material-react-table";
 import { useTable } from "@/libs/hooks/useTable";
-import { MenuItem, Tooltip, Typography } from "@mui/material";
+import { IconButton, Tooltip } from "@mui/material";
 import { DatetimePicker, SelectBox } from "@/components/shared/inputs";
 import TestOptions from "@/utils/data/json/test.json";
 import { IMember } from "@/@types/member";
@@ -10,14 +10,34 @@ import { ModalConfirm } from "@/components/shared/modals";
 import { useDisclosure } from "@/libs/hooks/useDisclosure";
 import { ActionType } from "@/@types/common";
 import { ACTIONS } from "@/utils/constants";
-import { toast } from "react-toastify";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import MicIcon from "@mui/icons-material/Mic";
+import ClearIcon from "@mui/icons-material/Clear";
+import ToastSuccess from "@/components/shared/toasts/ToastSuccess";
+import { SubmissionDetail } from "./SubmissionDetail";
 
-interface Person extends IMember {
+export interface PersonSubmission extends IMember {
   date_time?: string;
   test_id?: number;
 }
 
-const data: Person[] = [
+export type ActionTypeAdd = ActionType | "accept_interview";
+
+const TEXT_TOAST = {
+  [ACTIONS["ACCEPT"]]: "Xác nhận thành viên chính thức thành công!",
+  [ACTIONS["REJECT"]]: "Xác nhận loại đơn tuyển thành công",
+  [ACTIONS["ACCEPT_INTERVIEW"]]: "Xác nhận vòng phỏng vấn thành công!",
+};
+
+const TEXT_CONFIRM = {
+  [ACTIONS["ACCEPT"]]: "Xác nhận chuyển đơn tuyển sang THÀNH VIÊN CHÍNH THỨC",
+  [ACTIONS["REJECT"]]: "Xác nhận LOẠI đơn tuyển",
+  [ACTIONS["ACCEPT_INTERVIEW"]]:
+    "Xác nhận chuyển đơn tuyển sang VÒNG PHỎNG VẤN",
+};
+
+const data: PersonSubmission[] = [
   {
     full_name: "123",
     email: "Kentucky@gmail.com",
@@ -30,6 +50,8 @@ const data: Person[] = [
     position: "Thành viên",
     hope_to_receive:
       "Kinh nghiệm, kiến thức và trải nghiệm Kinh nghiệm, kiến thức và trải nghiệm Kinh nghiệm, kiến thức và trải nghiệm Kinh nghiệm, kiến thức và trải nghiệm Kinh nghiệm, kiến thức và trải nghiệm",
+    date_time: "2024-10-10 10:10:10",
+    test_id: 1,
   },
   {
     full_name: "123",
@@ -42,6 +64,8 @@ const data: Person[] = [
     memories: "Làm việc nhóm tốt",
     position: "Thành viên",
     hope_to_receive: "Kinh nghiệm, kiến thức và trải nghiệm",
+    date_time: "2024-01-10 10:10:10",
+    test_id: 1,
   },
   {
     full_name: "123",
@@ -54,6 +78,8 @@ const data: Person[] = [
     memories: "Làm việc nhóm tốt",
     position: "Thành viên",
     hope_to_receive: "Kinh nghiệm, kiến thức và trải nghiệm",
+    date_time: "2022-10-10 10:10:10",
+    test_id: 1,
   },
   {
     full_name: "123",
@@ -66,6 +92,8 @@ const data: Person[] = [
     memories: "Làm việc nhóm tốt",
     position: "Thành viên",
     hope_to_receive: "Kinh nghiệm, kiến thức và trải nghiệm",
+    date_time: "2022-10-10 10:10:10",
+    test_id: 1,
   },
   {
     full_name: "123",
@@ -78,11 +106,13 @@ const data: Person[] = [
     memories: "Làm việc nhóm tốt",
     position: "Thành viên",
     hope_to_receive: "Kinh nghiệm, kiến thức và trải nghiệm",
+    date_time: "2022-10-10 10:10:10",
+    test_id: 1,
   },
 ];
 
 const SubmissionTable = () => {
-  const columns = useMemo<MRT_ColumnDef<Person>[]>(
+  const columns = useMemo<MRT_ColumnDef<PersonSubmission>[]>(
     () => [
       {
         accessorKey: "full_name",
@@ -100,138 +130,86 @@ const SubmissionTable = () => {
         size: 150,
       },
       {
-        accessorKey: "phone_number",
-        header: "Số điện thoại",
-        size: 150,
-      },
-      {
-        accessorKey: "address",
-        header: "Khu vực sống",
-        size: 150,
-      },
-      {
-        accessorKey: "work_place",
-        header: "Nơi làm việc",
-        size: 150,
-      },
-      {
-        accessorKey: "has_social_activities",
-        header: "Đã từng tham gia hoạt động xã hội",
-        size: 200,
-      },
-      {
-        accessorKey: "memories",
-        header: "Kỷ niệm đáng nhớ khi tham gia hoạt động xã hội",
-        size: 200,
-        Cell({ row }) {
-          return (
-            <Tooltip title={row.original.memories}>
-              <Typography
-                sx={{
-                  ...ellipsisText(2),
-                  fontSize: "14px",
-                }}
-              >
-                {row.original.memories}
-              </Typography>
-            </Tooltip>
-          );
-        },
-      },
-      {
-        accessorKey: "position",
-        header: "Vị trí mong muốn trong KTCB",
-        size: 150,
-      },
-      {
-        accessorKey: "hope_to_receive",
-        header: "Điều mong muốn nhận khi tham gia KTCB",
-        size: 200,
-        Cell({ row }) {
-          return (
-            <Tooltip title={row.original.hope_to_receive}>
-              <Typography
-                sx={{
-                  ...ellipsisText(2),
-                  fontSize: "14px",
-                }}
-              >
-                {row.original.hope_to_receive}
-              </Typography>
-            </Tooltip>
-          );
-        },
-      },
-      {
         accessorKey: "date_time",
         header: "Ngày giờ phỏng vấn",
         size: 150,
-        Cell(props) {
-          return <DatetimePicker onChange={(e) => console.log(e)} />;
-        },
       },
       {
         accessorKey: "test_id",
         header: "Bài test",
         size: 150,
-        Cell(props) {
-          return (
-            <SelectBox
-              options={TestOptions}
-              value={""}
-              onChange={(value) => console.log(value)}
-            />
-          );
-        },
       },
     ],
     []
   );
 
   const [opened, { open, close }] = useDisclosure();
-  const [rowSelected, setRowSelected] = useState<Person>();
-  const [action, setAction] = useState<ActionType>();
+  const [openToast, setOpenToast] = useState(false);
+  const [openedDetail, { open: openDetail, close: closeDetail }] =
+    useDisclosure();
 
-  const handleOpenModal = (person: Person, action: ActionType) => {
-    open();
+  const [rowSelected, setRowSelected] = useState<PersonSubmission>();
+  const [action, setAction] = useState<ActionTypeAdd>();
+
+  const handleOpenModal = (
+    person: PersonSubmission,
+    action?: ActionTypeAdd
+  ) => {
+    action ? open() : openDetail();
+
     setRowSelected(person);
     setAction(action);
   };
 
   const handleComfirm = () => {
-    console.log("rowSelected", rowSelected)
-
-    if (action === ACTIONS["ACCEPT"]) {
-      toast.success("Duyệt thành công");
-    } else if (action === ACTIONS["REJECT"]) {
-      toast.success("Không duyệt thành công");
-    }
-
+    setOpenToast(true);
+    closeDetail();
     close();
   };
 
   const table = useTable({
     columns,
     data,
+    renderTopToolbar: () => <div />,
+    renderBottomToolbar: () => <div />,
     enableRowActions: true,
     renderRowActions: ({ row }) => (
       <div className="flex items-center justify-center min-w-">
-        <button
-          className={`flex items-center justify-center w-8 h-8 mr-2 text-white bg-green-700 rounded-full hover:bg-green-600`}
-          onClick={() =>
-            handleOpenModal(row.original, ACTIONS["ACCEPT"] as ActionType)
-          }
-        >
-          V
-        </button>
-        <button
-          className={`flex items-center justify-center w-8 h-8 mr-2 text-white bg-red-700 rounded-full hover:bg-red-600`}
-          onClick={() =>
-            handleOpenModal(row.original, ACTIONS["REJECT"] as ActionType)
-          }
-        >
-          X
-        </button>
+        <Tooltip title="Xem hồ sơ của đơn tuyển">
+          <IconButton onClick={() => handleOpenModal(row.original)}>
+            <VisibilityIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Chuyển đơn tuyển sang thành viên chính thức">
+          <IconButton
+            onClick={() =>
+              handleOpenModal(row.original, ACTIONS["ACCEPT"] as ActionTypeAdd)
+            }
+          >
+            <PeopleAltIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Chuyển đơn tuyển sang vòng phỏng vấn">
+          <IconButton
+            onClick={() =>
+              handleOpenModal(
+                row.original,
+                ACTIONS["ACCEPT_INTERVIEW"] as ActionTypeAdd
+              )
+            }
+          >
+            <MicIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Loại đơn tuyển">
+          <IconButton
+            onClick={() =>
+              handleOpenModal(row.original, ACTIONS["REJECT"] as ActionTypeAdd)
+            }
+          >
+            <ClearIcon />
+          </IconButton>
+        </Tooltip>
       </div>
     ),
     positionActionsColumn: "last",
@@ -240,17 +218,28 @@ const SubmissionTable = () => {
   return (
     <>
       <MaterialReactTable table={table} />
+      <ToastSuccess
+        open={openToast}
+        onClose={() => setOpenToast(false)}
+        heading="Xác nhận thành công"
+        content={`${TEXT_TOAST[action as ActionTypeAdd]}`}
+      />
       <ModalConfirm
-        title={`Xác nhận ${
-          action === ACTIONS["ACCEPT"] ? "DUYỆT" : "KHÔNG DUYỆT"
-        } tham gia phỏng vấn`}
+        title={`Thông báo xác nhận`}
         open={opened}
         onClose={close}
-        content={`Bạn xác nhận ${
-          action === ACTIONS["ACCEPT"] ? "DUYỆT" : "KHÔNG DUYỆT"
-        } tham gia phỏng vấn?`}
+        content={`${TEXT_CONFIRM[action as ActionTypeAdd]}`}
         onConfirm={handleComfirm}
       />
+
+      {rowSelected && (
+        <SubmissionDetail
+          open={openedDetail}
+          onClose={closeDetail}
+          data={rowSelected!}
+          handleOpenModal={handleOpenModal}
+        />
+      )}
     </>
   );
 };
