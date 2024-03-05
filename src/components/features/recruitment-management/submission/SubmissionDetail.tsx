@@ -52,6 +52,10 @@ export const SubmissionDetail: React.FC<Props> = ({
               {data.work_place}
             </div>
             <div className={classNameCol}>
+              <span className="font-bold">Địa chỉ: </span>
+              {data.address}
+            </div>
+            <div className={classNameCol}>
               <span className="font-bold">
                 Đã từng tham gia hoạt động xã hội:{" "}
               </span>
@@ -97,7 +101,7 @@ export const SubmissionDetail: React.FC<Props> = ({
                 fullWidth
               />
             </div>
-            <div className="flex items-center justify-start min-w-">
+            <div className="flex items-center justify-center min-w-">
               <Tooltip title="Chuyển đơn tuyển sang thành viên chính thức">
                 <IconButton
                   onClick={() => {
