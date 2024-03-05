@@ -25,11 +25,24 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     },
   });
 
-  await sendMail(
-    [data.email],
-    'CẢM ƠN BẠN ĐÃ ĐĂNG KÝ THÀNH VIÊN KHOẢNG TRỜI CỦA BÉ',
-    mailData(data)
-  );
+  await new Promise(async (resolve, reject) => {
+    try {
+      const result = await sendMail(
+        [data.email],
+        'CẢM ƠN BẠN ĐÃ ĐĂNG KÝ THÀNH VIÊN KHOẢNG TRỜI CỦA BÉ',
+        mailData(data)
+      );
+      resolve(result);
+      res.status(200).json({message: 'Mail sent!'});
+    } catch (err: any) {
+      reject(err);
+      return res.status(500).json({
+        error: err.message || 'Something went wrong'
+      });
+    }
+  })
+
+  
 
   return;
 }
