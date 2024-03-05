@@ -18,7 +18,7 @@
       "@/*": ["./src/*"],
       "@components/*": ["./src/components/*"],
       "@public/*": ["./public/*"],
-      "@service/*": ["./src/service/*"]
+      "@mailer/*": ["./src/mailer/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

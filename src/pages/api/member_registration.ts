@@ -1,9 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import prisma from "@/libs/prisma";
-import { informMemberRestrationComplete } from '@/mailer/memberRegistrationComplete';
+import { sendMail } from '@mailer/mailService';
+import mailData from '@mailer/templates/member-registration-complete';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { data } = req.body;
+  const data = req.body;
 
   if (!data) {
     return res.status(400).json({ message: 'Content not found' });
@@ -12,19 +13,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   await prisma.member.create({
     data: {
       fullName: data.full_name,
-      birthday: data.birthday,
+      birthday: new Date(data.birthday),
       phoneNumber: data.phone_number,
       email: data.email,
       address: data.address,
       workPlace: data.work_place,
-      hasSocialActivities: data.has_social_activities,
+      hasSocialActivities: data.has_social_activities === "1",
       memories: data.memories,
       position: data.position,
       hopeToReceive: data.hope_to_receive
     },
   });
 
-  await informMemberRestrationComplete(data);
+  await sendMail(
+    [data.email],
+    'CẢM ƠN BẠN ĐÃ ĐĂNG KÝ THÀNH VIÊN KHOẢNG TRỜI CỦA BÉ',
+    mailData(data)
+  );
 
   return;
 }

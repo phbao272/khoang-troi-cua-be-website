@@ -1,6 +1,4 @@
 import * as nodemailer from 'nodemailer';
-import ejs from 'ejs';
-import he from 'he';
 
 export async function sendMail(to: [string], subject: string, html: any) {
   var transporter = nodemailer.createTransport({
@@ -27,10 +25,4 @@ export async function sendMail(to: [string], subject: string, html: any) {
       return info;
     }
   });
-}
-
-export async function renderEmailData(template: string, data: any) {
-  const mailBody = await ejs.renderFile(`/var/task/mailer/templates/${template}`, data);
-  const fullMail = await ejs.renderFile("/var/task/mailer/templates/template.ejs", { content: mailBody });
-  return he.decode(fullMail);
 }
