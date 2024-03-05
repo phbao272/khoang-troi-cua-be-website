@@ -22,3 +22,19 @@ model TestEmail {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model Member {
+  id                  Int      @id @default(autoincrement())
+  fullName            String   @unique
+  birthday            DateTime
+  phoneNumber         String
+  email               String
+  address             String
+  workPlace           String
+  hasSocialActivities Boolean
+  memories            String
+  position            String
+  hopeToReceive       String
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+}
