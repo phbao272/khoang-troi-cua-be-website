@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { MaterialReactTable, type MRT_ColumnDef } from "material-react-table";
 import { useTable } from "@/libs/hooks/useTable";
 import { IOfficialMember } from "@/@types/member";
+import { Typography } from "@mui/material";
 
 interface Person extends IOfficialMember {
   team_id?: number;
@@ -101,9 +102,18 @@ const MemberListTable = () => {
   const table = useTable({
     columns,
     data,
+    renderTopToolbar: () => <div />,
+    renderBottomToolbar: () => <div />,
   });
 
-  return <MaterialReactTable table={table} />;
+  return (
+    <div className="min-h-[520px] flex flex-col gap-4">
+      <Typography fontSize={28} fontWeight={"bold"}>
+        Danh sách thành viên
+      </Typography>
+      <MaterialReactTable table={table} />
+    </div>
+  );
 };
 
 export { MemberListTable };

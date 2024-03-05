@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { MaterialReactTable, type MRT_ColumnDef } from "material-react-table";
 import { useTable } from "@/libs/hooks/useTable";
-import { Box, Button, IconButton, MenuItem } from "@mui/material";
+import { Box, Button, IconButton, MenuItem, Typography } from "@mui/material";
 import { SelectBox } from "@/components/shared/inputs";
 import { IOfficialMember } from "@/@types/member";
 
@@ -138,6 +138,8 @@ const MemberManagementTable = () => {
     columns,
     data,
     enableRowActions: true,
+    renderTopToolbar: () => <div />,
+    renderBottomToolbar: () => <div />,
     renderRowActions: ({ row }) => (
       <Box
         sx={{
@@ -155,7 +157,15 @@ const MemberManagementTable = () => {
     positionActionsColumn: "last",
   });
 
-  return <MaterialReactTable table={table} />;
+  return (
+    <div className="min-h-[520px] flex flex-col gap-4">
+      <Typography fontSize={28} fontWeight={"bold"}>
+        Quản lý thành viên
+      </Typography>
+
+      <MaterialReactTable table={table} />
+    </div>
+  );
 };
 
 export { MemberManagementTable };
