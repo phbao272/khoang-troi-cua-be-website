@@ -1,5 +1,5 @@
 import React from "react";
-import { Person } from "./InterviewTable";
+import { PersonInterview } from "./InterviewTable";
 import { IconButton, Modal, Tooltip } from "@mui/material";
 import { DatetimePicker, SelectBox } from "@/components/shared/inputs";
 import TestOptions from "@/utils/data/json/test.json";
@@ -11,10 +11,10 @@ import { ACTIONS } from "@/utils/constants";
 import { format } from "date-fns";
 
 interface Props {
-  data: Person;
+  data: PersonInterview;
   open: boolean;
   onClose: () => void;
-  handleOpenModal: (person: Person, action?: ActionType) => void;
+  handleOpenModal: (person: PersonInterview, action?: ActionType) => void;
 }
 
 const classNameCol = "md:col-span-1 xs:col-span-2";

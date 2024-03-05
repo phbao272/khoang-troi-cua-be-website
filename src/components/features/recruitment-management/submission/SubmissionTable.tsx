@@ -17,7 +17,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import ToastSuccess from "@/components/shared/toasts/ToastSuccess";
 import { SubmissionDetail } from "./SubmissionDetail";
 
-export interface Person extends IMember {
+export interface PersonSubmission extends IMember {
   date_time?: string;
   test_id?: number;
 }
@@ -37,7 +37,7 @@ const TEXT_CONFIRM = {
     "Xác nhận chuyển đơn tuyển sang VÒNG PHỎNG VẤN",
 };
 
-const data: Person[] = [
+const data: PersonSubmission[] = [
   {
     full_name: "123",
     email: "Kentucky@gmail.com",
@@ -112,7 +112,7 @@ const data: Person[] = [
 ];
 
 const SubmissionTable = () => {
-  const columns = useMemo<MRT_ColumnDef<Person>[]>(
+  const columns = useMemo<MRT_ColumnDef<PersonSubmission>[]>(
     () => [
       {
         accessorKey: "full_name",
@@ -148,10 +148,13 @@ const SubmissionTable = () => {
   const [openedDetail, { open: openDetail, close: closeDetail }] =
     useDisclosure();
 
-  const [rowSelected, setRowSelected] = useState<Person>();
+  const [rowSelected, setRowSelected] = useState<PersonSubmission>();
   const [action, setAction] = useState<ActionTypeAdd>();
 
-  const handleOpenModal = (person: Person, action?: ActionTypeAdd) => {
+  const handleOpenModal = (
+    person: PersonSubmission,
+    action?: ActionTypeAdd
+  ) => {
     action ? open() : openDetail();
 
     setRowSelected(person);

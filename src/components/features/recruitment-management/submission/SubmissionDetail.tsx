@@ -1,5 +1,5 @@
 import React from "react";
-import { ActionTypeAdd, Person } from "./SubmissionTable";
+import { ActionTypeAdd, PersonSubmission } from "./SubmissionTable";
 import { IconButton, Modal, Tooltip } from "@mui/material";
 import { DatetimePicker, SelectBox } from "@/components/shared/inputs";
 import TestOptions from "@/utils/data/json/test.json";
@@ -12,10 +12,10 @@ import { ACTIONS } from "@/utils/constants";
 import { format } from "date-fns";
 
 interface Props {
-  data: Person;
+  data: PersonSubmission;
   open: boolean;
   onClose: () => void;
-  handleOpenModal: (person: Person, action?: ActionTypeAdd) => void;
+  handleOpenModal: (person: PersonSubmission, action?: ActionTypeAdd) => void;
 }
 
 const classNameCol = "md:col-span-1 xs:col-span-2";

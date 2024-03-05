@@ -1,9 +1,8 @@
 import { useMemo, useState } from "react";
 import { MaterialReactTable, type MRT_ColumnDef } from "material-react-table";
 import { useTable } from "@/libs/hooks/useTable";
-import { IconButton, MenuItem, Tooltip, Typography } from "@mui/material";
+import { IconButton, Tooltip } from "@mui/material";
 import { IMember } from "@/@types/member";
-import { ellipsisText } from "@/utils/common";
 import { ModalConfirm } from "@/components/shared/modals";
 import { ACTIONS } from "@/utils/constants";
 import { useDisclosure } from "@/libs/hooks/useDisclosure";
@@ -15,7 +14,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import ToastSuccess from "@/components/shared/toasts/ToastSuccess";
 import { InterviewDetail } from "./InterviewDetail";
 
-export interface Person extends IMember {
+export interface PersonInterview extends IMember {
   date_time: string;
   test_id: number;
   link_gg_met: string;
@@ -31,7 +30,7 @@ const TEXT_CONFIRM = {
   [ACTIONS["REJECT"]]: "Xác nhận LOẠI đơn tuyển",
 };
 
-const data: Person[] = [
+const data: PersonInterview[] = [
   {
     full_name: "123",
     email: "Kentucky@gmail.com",
@@ -111,7 +110,7 @@ const data: Person[] = [
 ];
 
 const InterviewTable = () => {
-  const columns = useMemo<MRT_ColumnDef<Person>[]>(
+  const columns = useMemo<MRT_ColumnDef<PersonInterview>[]>(
     () => [
       {
         accessorKey: "full_name",
@@ -160,10 +159,10 @@ const InterviewTable = () => {
 
   const [openToast, setOpenToast] = useState(false);
 
-  const [rowSelected, setRowSelected] = useState<Person>();
+  const [rowSelected, setRowSelected] = useState<PersonInterview>();
   const [action, setAction] = useState<ActionType>();
 
-  const handleOpenModal = (person: Person, action?: ActionType) => {
+  const handleOpenModal = (person: PersonInterview, action?: ActionType) => {
     action ? open() : openDetail();
 
     setRowSelected(person);
