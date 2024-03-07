@@ -16,16 +16,10 @@ model User {
   updatedAt DateTime @updatedAt
 }
 
-model TestEmail {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Member {
-  id                  Int      @id @default(autoincrement())
-  fullName            String   @unique
+model MemberRegistration {
+  id                  Int     @id @default(autoincrement())
+  status              MemberRegistrationStatus  @default(REVIEWING)
+  fullName            String
   birthday            DateTime
   phoneNumber         String
   email               String
@@ -33,8 +27,21 @@ model Member {
   workPlace           String
   hasSocialActivities Boolean
   memories            String
-  position            String
+  position            Position @relation(fields: [positionId], references: [id])
+  positionId          Int
   hopeToReceive       String
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
+}
+
+model Position {
+  id                 Int      @id @default(autoincrement())
+  name               String
+  memberRegistration MemberRegistration[]
+}
+
+enum MemberRegistrationStatus {
+  REVIEWING
+  PASSED
+  FAILED
 }

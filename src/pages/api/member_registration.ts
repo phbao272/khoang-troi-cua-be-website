@@ -10,7 +10,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(400).json({ message: 'Content not found' });
   }
 
-  await prisma.member.create({
+  const hasSocialActivities = data.has_social_activities === "1";
+
+  const member = await prisma.memberRegistration.create({
     data: {
       fullName: data.full_name,
       birthday: new Date(data.birthday),
@@ -18,10 +20,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       email: data.email,
       address: data.address,
       workPlace: data.work_place,
-      hasSocialActivities: data.has_social_activities === "1",
+      hasSocialActivities: hasSocialActivities,
       memories: data.memories,
-      position: data.position,
+      positionId: parseInt(data.position),
       hopeToReceive: data.hope_to_receive
+    },
+    include: {
+      position: {
+        select: {
+          name: true,
+        },
+      },
     },
   });
 
@@ -30,7 +39,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const result = await sendMail(
         [data.email],
         'CẢM ƠN BẠN ĐÃ ĐĂNG KÝ THÀNH VIÊN KHOẢNG TRỜI CỦA BÉ',
-        mailData(data)
+        mailData(member)
       );
       resolve(result);
       res.status(200).json({message: 'Mail sent!'});
@@ -41,8 +50,4 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       });
     }
   })
-
-  
-
-  return;
 }
