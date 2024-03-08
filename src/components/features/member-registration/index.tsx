@@ -41,10 +41,22 @@ export const MemberRegistration = () => {
     },
   });
 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data);
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      const response = await fetch('/api/member_registration', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
 
-    setOpen(true);
+      if (!response.ok) {
+        throw new Error(`API request failed with status ${response.status}`);
+      }
+
+      setOpen(true);
+    } catch (err) {
+      console.error(err);
+    }
   });
 
   return (
