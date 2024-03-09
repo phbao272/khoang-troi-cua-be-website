@@ -138,7 +138,7 @@ const News: NextPage<Props> = ({ news, rightOtherNews, content }) => {
     }
   }, [news]);
 
-  const handleShareViaEmail = () => {
+  const handleShareViaEmail = async () => {
     console.log("Share via email");
 
     closeConfirm();
