@@ -19,6 +19,7 @@ export interface IOfficialMember {
   address: string;
   work_place: string;
   bank_account: string;
+  bank_name: string;
 }
 
 export interface IDonor {}

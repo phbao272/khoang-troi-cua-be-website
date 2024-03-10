@@ -16,6 +16,7 @@ import MicIcon from "@mui/icons-material/Mic";
 import ClearIcon from "@mui/icons-material/Clear";
 import ToastSuccess from "@/components/shared/toasts/ToastSuccess";
 import { SubmissionDetail } from "./SubmissionDetail";
+import { EllipsisCell } from "@/components/shared/table";
 
 export interface PersonSubmission extends IMember {
   date_time?: string;
@@ -40,7 +41,7 @@ const TEXT_CONFIRM = {
 const data: PersonSubmission[] = [
   {
     full_name: "123",
-    email: "Kentucky@gmail.com",
+    email: "Kentucky_dai_dai_dai_ktcb@gmail.com",
     birthday: "27/02/2001",
     phone_number: "0334455667",
     address: "144 Xuan Thuy",
@@ -117,27 +118,32 @@ const SubmissionTable = () => {
       {
         accessorKey: "full_name",
         header: "Họ và tên",
-        size: 150,
+        size: 200,
+        Cell: (props) => <EllipsisCell {...props} />,
       },
       {
         accessorKey: "email",
         header: "Email",
-        size: 150,
+        size: 200,
+        Cell: (props) => <EllipsisCell {...props} />,
       },
       {
         accessorKey: "birthday",
         header: "Ngày sinh",
-        size: 150,
+        size: 200,
+        Cell: (props) => <EllipsisCell {...props} />,
       },
       {
         accessorKey: "date_time",
         header: "Ngày giờ phỏng vấn",
-        size: 150,
+        size: 200,
+        Cell: (props) => <EllipsisCell {...props} />,
       },
       {
         accessorKey: "test_id",
         header: "Bài test",
-        size: 150,
+        size: 200,
+        Cell: (props) => <EllipsisCell {...props} />,
       },
     ],
     []
@@ -161,7 +167,7 @@ const SubmissionTable = () => {
     setAction(action);
   };
 
-  const handleComfirm = () => {
+  const handleConfirm = () => {
     setOpenToast(true);
     closeDetail();
     close();
@@ -229,7 +235,7 @@ const SubmissionTable = () => {
         open={opened}
         onClose={close}
         content={`${TEXT_CONFIRM[action as ActionTypeAdd]}`}
-        onConfirm={handleComfirm}
+        onConfirm={handleConfirm}
       />
 
       {rowSelected && (

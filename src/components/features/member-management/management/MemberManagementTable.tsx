@@ -1,24 +1,43 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { MaterialReactTable, type MRT_ColumnDef } from "material-react-table";
 import { useTable } from "@/libs/hooks/useTable";
-import { Box, Button, IconButton, MenuItem, Typography } from "@mui/material";
-import { SelectBox } from "@/components/shared/inputs";
+import { IconButton, Tooltip, Typography } from "@mui/material";
 import { IOfficialMember } from "@/@types/member";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import ClearIcon from "@mui/icons-material/Clear";
+import { useDisclosure } from "@/libs/hooks/useDisclosure";
+import { ActionType } from "@/@types/common";
+import { ACTIONS } from "@/utils/constants";
+import ToastSuccess from "@/components/shared/toasts/ToastSuccess";
+import { ModalConfirm } from "@/components/shared/modals";
+import { MemberManagementDetail } from "./MemberManagementDetail";
+import { EllipsisCell } from "@/components/shared/table";
 
-interface Person extends IOfficialMember {
-  team_id?: number;
-  position_id?: number;
+export interface IMemberManagement extends IOfficialMember {
+  team?: string;
+  position?: string;
 }
 
-const data: Person[] = [
+const TEXT_TOAST = {
+  [ACTIONS["REJECT"]]: "Xác nhận yêu cầu thành viên rời đội thành công",
+};
+
+const TEXT_CONFIRM = {
+  [ACTIONS["REJECT"]]: "Xác nhận yêu cầu thành viên RỜI ĐỘI",
+};
+
+const data: IMemberManagement[] = [
   {
     full_name: "123",
-    email: "Kentucky@gmail.com",
+    email: "Kentucky_dai_dai_dai_ktcb@gmail.com",
     birthday: "27/02/2001",
     phone_number: "0334455667",
     address: "144 Xuan Thuy",
     work_place: "144 Xuan Thuy",
     bank_account: "123456789",
+    team: "Cùng bé trải nghiệm",
+    position: "Tình nguyện viên",
+    bank_name: "ACB",
   },
   {
     full_name: "123",
@@ -28,6 +47,9 @@ const data: Person[] = [
     address: "144 Xuan Thuy",
     work_place: "144 Xuan Thuy",
     bank_account: "123456789",
+    team: "Cùng bé trải nghiệm",
+    position: "Tình nguyện viên",
+    bank_name: "ACB",
   },
   {
     full_name: "123",
@@ -37,6 +59,9 @@ const data: Person[] = [
     address: "144 Xuan Thuy",
     work_place: "144 Xuan Thuy",
     bank_account: "123456789",
+    team: "Cùng bé trải nghiệm",
+    position: "Tình nguyện viên",
+    bank_name: "ACB",
   },
   {
     full_name: "123",
@@ -46,113 +71,109 @@ const data: Person[] = [
     address: "144 Xuan Thuy",
     work_place: "144 Xuan Thuy",
     bank_account: "123456789",
+    team: "Cùng bé trải nghiệm",
+    position: "Tình nguyện viên",
+    bank_name: "ACB",
   },
   {
-    full_name: "123",
+    full_name: "Xin chào các bạn tên của tôi là Xuân Thủy",
     email: "Nebraska@gmail.com",
     birthday: "27/02/2001",
     phone_number: "0334455667",
     address: "144 Xuan Thuy",
     work_place: "144 Xuan Thuy",
     bank_account: "123456789",
+    team: "Cùng bé trải nghiệm công viên thủy tinh",
+    position: "Tình nguyện viên",
+    bank_name: "ACB",
   },
 ];
 
 const MemberManagementTable = () => {
-  const columns = useMemo<MRT_ColumnDef<Person>[]>(
+  const [opened, { open, close }] = useDisclosure();
+  const [openedDetail, { open: openDetail, close: closeDetail }] =
+    useDisclosure();
+
+  const [openToast, setOpenToast] = useState(false);
+
+  const [rowSelected, setRowSelected] = useState<IMemberManagement>();
+  const [action, setAction] = useState<ActionType>();
+
+  const handleOpenModal = (person: IMemberManagement, action?: ActionType) => {
+    action ? open() : openDetail();
+
+    setRowSelected(person);
+    setAction(action);
+  };
+
+  const columns = useMemo<MRT_ColumnDef<IMemberManagement>[]>(
     () => [
       {
         accessorKey: "full_name",
         header: "Họ và tên",
-        size: 150,
-      },
-      {
-        accessorKey: "email",
-        header: "Email",
-        size: 150,
+        size: 200,
+        Cell: (props) => <EllipsisCell {...props} />,
       },
       {
         accessorKey: "birthday",
         header: "Ngày sinh",
-        size: 150,
+        size: 200,
+        Cell: (props) => <EllipsisCell {...props} />,
       },
       {
         accessorKey: "phone_number",
         header: "Số điện thoại",
-        size: 150,
+        size: 200,
+        Cell: (props) => <EllipsisCell {...props} />,
       },
       {
-        accessorKey: "address",
-        header: "Khu vực sống",
-        size: 150,
-      },
-      {
-        accessorKey: "work_place",
-        header: "Nơi làm việc",
-        size: 150,
-      },
-      {
-        accessorKey: "bank_account",
-        header: "Số tài khoản",
-        size: 150,
-      },
-      {
-        accessorKey: "team_id",
+        accessorKey: "team",
         header: "Team",
-        size: 150,
-        Cell(props) {
-          return (
-            <SelectBox
-              options={[
-                { label: "Cùng bé trải nghiệm", value: "Cùng bé trải nghiệm" },
-                { label: "Yêu cùng bé", value: "Yêu cùng bé" },
-              ]}
-              value={""}
-              onChange={(value) => console.log(value)}
-            />
-          );
-        },
+        size: 200,
+        Cell: (props) => <EllipsisCell {...props} />,
       },
       {
-        accessorKey: "position_id",
+        accessorKey: "position",
         header: "Vị trí",
-        size: 150,
-        Cell(props) {
-          return (
-            <SelectBox
-              options={[
-                { label: "Tình nguyện viên", value: "tinh-nguyen-vien" },
-                { label: "Thành viên ban tổ chức", value: "ban-to-chuc" },
-              ]}
-              value={""}
-              onChange={(value) => console.log(value)}
-            />
-          );
-        },
+        size: 200,
+        Cell: (props) => <EllipsisCell {...props} />,
       },
     ],
     []
   );
 
+  const handleConfirm = () => {
+    setOpenToast(true);
+    closeDetail();
+    close();
+  };
+
   const table = useTable({
     columns,
     data,
+    layoutMode: "grid-no-grow",
     enableRowActions: true,
+
     renderTopToolbar: () => <div />,
     renderBottomToolbar: () => <div />,
     renderRowActions: ({ row }) => (
-      <Box
-        sx={{
-          width: "100px",
-        }}
-      >
-        <Button
-          variant="contained"
-          onClick={() => console.info("Rời đội", row.original)}
-        >
-          Rời đội
-        </Button>
-      </Box>
+      <div className="flex items-center justify-center min-w-">
+        <Tooltip title="Xem hồ sơ">
+          <IconButton onClick={() => handleOpenModal(row.original)}>
+            <VisibilityIcon />
+          </IconButton>
+        </Tooltip>
+
+        <Tooltip title="Rời đội">
+          <IconButton
+            onClick={() =>
+              handleOpenModal(row.original, ACTIONS["REJECT"] as ActionType)
+            }
+          >
+            <ClearIcon />
+          </IconButton>
+        </Tooltip>
+      </div>
     ),
     positionActionsColumn: "last",
   });
@@ -164,6 +185,29 @@ const MemberManagementTable = () => {
       </Typography>
 
       <MaterialReactTable table={table} />
+
+      <ToastSuccess
+        open={openToast}
+        onClose={() => setOpenToast(false)}
+        heading="Xác nhận thành công"
+        content={`${TEXT_TOAST[action as ActionType]}`}
+      />
+      <ModalConfirm
+        title={`Thông báo xác nhận`}
+        open={opened}
+        onClose={close}
+        content={`${TEXT_CONFIRM[action as ActionType]}`}
+        onConfirm={handleConfirm}
+      />
+
+      {rowSelected && (
+        <MemberManagementDetail
+          open={openedDetail}
+          onClose={closeDetail}
+          data={rowSelected!}
+          handleOpenModal={handleOpenModal}
+        />
+      )}
     </div>
   );
 };
