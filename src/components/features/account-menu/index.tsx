@@ -7,6 +7,7 @@ import Logout from "@mui/icons-material/Logout";
 import { Typography } from "@mui/material";
 import { useRef, useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import { signOut } from "next-auth/react";
 
 interface AccountMenuProps {
   userName: string;
@@ -54,7 +55,7 @@ export const AccountMenu: React.FC<AccountMenuProps> = ({ userName }) => {
   };
 
   const handleLogout = () => {
-    console.log("Đăng xuất");
+    signOut();
 
     handleClose();
   };
