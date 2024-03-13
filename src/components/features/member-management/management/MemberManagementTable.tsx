@@ -151,7 +151,6 @@ const MemberManagementTable = () => {
   const table = useTable({
     columns,
     data,
-    layoutMode: "grid-no-grow",
     enableRowActions: true,
 
     renderTopToolbar: () => <div />,
