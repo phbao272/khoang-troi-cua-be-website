@@ -18,8 +18,6 @@ const MemberListPage = () => {
           heading="Xác nhận thành công"
           content="Cảm ơn đã gửi thông tin"
         />
-
-        <DefaultSeo {...SEO} title="Quản lý thành viên" />
         <MemberListTable />
       </div>
     </ContainerXL>

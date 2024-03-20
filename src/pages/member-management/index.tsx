@@ -12,7 +12,7 @@ const MemberManagementPage = () => {
   return (
     <ContainerXL>
       <div className="flex flex-col mt-9 gap-4">
-        <DefaultSeo {...SEO} title="Quản lý đơn tuyển" />
+        <DefaultSeo {...SEO} title="Quản lý thành viên" />
         <ToastSuccess
           open={open}
           onClose={() => setOpen(false)}
@@ -20,7 +20,6 @@ const MemberManagementPage = () => {
           content="Cảm ơn đã gửi thông tin"
         />
 
-        <DefaultSeo {...SEO} title="Quản lý thành viên" />
         <MemberManagementTable />
       </div>
     </ContainerXL>

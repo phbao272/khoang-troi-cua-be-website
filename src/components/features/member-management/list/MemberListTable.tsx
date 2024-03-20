@@ -1,5 +1,9 @@
 import { useMemo, useState } from "react";
-import { MaterialReactTable, type MRT_ColumnDef } from "material-react-table";
+import {
+  MaterialReactTable,
+  MRT_TableOptions,
+  type MRT_ColumnDef,
+} from "material-react-table";
 import { useTable } from "@/libs/hooks/useTable";
 import { IOfficialMember } from "@/@types/member";
 import { Button, IconButton, Tooltip, Typography } from "@mui/material";
@@ -7,11 +11,33 @@ import { useDisclosure } from "@/libs/hooks/useDisclosure";
 import { MemberDetail } from "./MemberDetail";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { EllipsisCell } from "@/components/shared/table";
+import { ClearIcon } from "@mui/x-date-pickers";
+import { ACTIONS } from "@/utils/constants";
+import SyncAltIcon from "@mui/icons-material/SyncAlt";
+import PositionKTCB from "@/utils/data/json/position-ktcb.json";
+
+import {
+  MODAL_TYPES,
+  useGlobalModalContext,
+} from "../../global-modal/GlobalModal";
+import { SelectBox } from "@/components/shared/inputs";
+import { useUpdateMember } from "./hooks/useUpdateMember";
 
 export interface IMemberList extends IOfficialMember {
   team?: string;
   position?: string;
 }
+
+const TEAM_OPTIONS = [
+  {
+    value: 1,
+    label: "Cùng bé trải nghiệm",
+  },
+  {
+    value: 2,
+    label: "Kiến trúc sư tình nguyện",
+  },
+];
 
 const data: IMemberList[] = [
   {
@@ -70,17 +96,29 @@ const data: IMemberList[] = [
     address: "144 Xuan Thuy",
     work_place: "144 Xuan Thuy",
     team: "Cùng bé trải nghiệm",
-    position: "Tình nguyện viên dsajdsajd sadsad sa ds ad sa d sa dsa",
+    position: "Tình nguyện viên",
     bank_account: "123456789",
     bank_name: "ACB",
   },
 ];
 
+const TEXT_TOAST = {
+  [ACTIONS["REJECT"]]: "Xác nhận yêu cầu thành viên rời đội thành công",
+};
+
+const TEXT_CONFIRM = {
+  [ACTIONS["REJECT"]]: "Xác nhận yêu cầu thành viên RỜI ĐỘI",
+};
+
 const MemberListTable = () => {
+  const { showModal } = useGlobalModalContext();
   const [openedDetail, { open: openDetail, close: closeDetail }] =
     useDisclosure();
 
   const [rowSelected, setRowSelected] = useState<IMemberList>();
+
+  const { mutateAsync: updateMember, isLoading: isUpdatingMember } =
+    useUpdateMember();
 
   const handleOpenModal = (person: IMemberList) => {
     openDetail();
@@ -93,23 +131,27 @@ const MemberListTable = () => {
         accessorKey: "full_name",
         header: "Họ và tên",
         size: 200,
+        enableEditing: false,
         Cell: (props) => <EllipsisCell {...props} />,
       },
       {
         accessorKey: "birthday",
         header: "Ngày sinh",
+        enableEditing: false,
         size: 200,
         Cell: (props) => <EllipsisCell {...props} />,
       },
       {
         accessorKey: "email",
         header: "Email",
+        enableEditing: false,
         size: 200,
         Cell: (props) => <EllipsisCell {...props} />,
       },
       {
         accessorKey: "phone_number",
         header: "Số điện thoại",
+        enableEditing: false,
         size: 200,
         Cell: (props) => <EllipsisCell {...props} />,
       },
@@ -118,16 +160,72 @@ const MemberListTable = () => {
         header: "Team",
         size: 200,
         Cell: (props) => <EllipsisCell {...props} />,
+        Edit: (props) => {
+          const label = props.cell.getValue();
+
+          return (
+            <SelectBox
+              value={
+                TEAM_OPTIONS.find((p) => p.label === label)
+                  ?.value as unknown as string
+              }
+              onChange={(value: string | number): void => {
+                console.log(value);
+              }}
+              fullWidth
+              options={TEAM_OPTIONS}
+              placeholder="Chọn team ứng tuyển"
+              {...props}
+            />
+          );
+        },
       },
       {
         accessorKey: "position",
         header: "Vị trí",
         size: 200,
         Cell: (props) => <EllipsisCell {...props} />,
+        Edit: (props) => {
+          const label = props.cell.getValue();
+
+          return (
+            <SelectBox
+              value={
+                PositionKTCB.find((p) => p.label === label)
+                  ?.value as unknown as string
+              }
+              onChange={(value: string | number): void => {
+                console.log(value);
+              }}
+              fullWidth
+              options={PositionKTCB}
+              placeholder="Chọn vị trí"
+              {...props}
+            />
+          );
+        },
       },
     ],
     []
   );
+
+  const handleDownloadList = () => {
+    console.log("download");
+  };
+
+  const handleOutTeam = () => {
+    showModal(MODAL_TYPES.MODAL_SUCCESS, {
+      content: TEXT_TOAST[ACTIONS["REJECT"]],
+    });
+  };
+
+  const handleSaveUser: MRT_TableOptions<IMemberList>["onEditingRowSave"] =
+    async ({ values, table }) => {
+      console.log(values);
+
+      await updateMember(values);
+      table.setEditingRow(null); //exit editing mode
+    };
 
   const table = useTable({
     columns,
@@ -135,6 +233,12 @@ const MemberListTable = () => {
     renderTopToolbar: () => <div />,
     renderBottomToolbar: () => <div />,
     enableRowActions: true,
+    editDisplayMode: "row",
+    enableEditing: true,
+
+    onEditingRowCancel: () => console.log("cancel"),
+    onEditingRowSave: handleSaveUser,
+
     renderRowActions: ({ row }) => (
       <div className="flex items-center justify-center min-w-">
         <Tooltip title="Xem hồ sơ">
@@ -142,14 +246,32 @@ const MemberListTable = () => {
             <VisibilityIcon />
           </IconButton>
         </Tooltip>
+
+        <Tooltip title="Chỉnh sửa vị trí">
+          <IconButton onClick={() => table.setEditingRow(row)}>
+            <SyncAltIcon />
+          </IconButton>
+        </Tooltip>
+
+        <Tooltip title="Rời đội">
+          <IconButton
+            onClick={() =>
+              showModal(MODAL_TYPES.MODAL_CONFIRM, {
+                content: TEXT_CONFIRM[ACTIONS["REJECT"]],
+                onConfirm: handleOutTeam,
+              })
+            }
+          >
+            <ClearIcon />
+          </IconButton>
+        </Tooltip>
       </div>
     ),
     positionActionsColumn: "last",
+    state: {
+      isSaving: isUpdatingMember,
+    },
   });
-
-  const handleDownload = () => {
-    console.log("download");
-  };
 
   return (
     <div className="min-h-[520px] flex flex-col gap-4">
@@ -165,7 +287,7 @@ const MemberListTable = () => {
             width: "fit-content",
           }}
           color="secondary"
-          onClick={handleDownload}
+          onClick={handleDownloadList}
         >
           Tải về danh sách thành viên
         </Button>
