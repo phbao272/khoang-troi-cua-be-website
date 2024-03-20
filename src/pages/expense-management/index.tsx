@@ -1,5 +1,6 @@
 import { DisbursementTable } from "@/components/features/expense-management/disbursement/DisbursementTable";
 import { ExpenseApprovalTable } from "@/components/features/expense-management/expense-approval/ExpenseApprovalTable";
+import { ExpenseCreation } from "@/components/features/expense-management/expense-creation";
 import { ContainerXL } from "@/components/layouts/ContainerXL";
 import ToastSuccess from "@/components/shared/toasts/ToastSuccess";
 import { SEO } from "@/configs/seo.config";
@@ -7,6 +8,8 @@ import { Box, Button, Typography } from "@mui/material";
 import { DefaultSeo } from "next-seo";
 import React from "react";
 import { useForm } from "react-hook-form";
+
+const HEADING = ["Tạo yêu cầu chi", "Danh sách thu chi", "Danh sách giải ngân"];
 
 const ExpenseManagementPage = () => {
   const [open, setOpen] = React.useState(false);
@@ -18,6 +21,9 @@ const ExpenseManagementPage = () => {
   });
 
   const tabElement = [
+    {
+      element: <ExpenseCreation />,
+    },
     {
       element: <ExpenseApprovalTable />,
     },
@@ -47,7 +53,7 @@ const ExpenseManagementPage = () => {
             disabled={watch("tabIndex") === 0}
             onClick={() => setValue("tabIndex", 0)}
           >
-            Duyệt chi
+            Tạo yêu cầu chi
           </Button>
           <Button
             variant="contained"
@@ -55,18 +61,28 @@ const ExpenseManagementPage = () => {
               width: "fit-content",
               textWrap: "nowrap",
             }}
-            disabled={watch("tabIndex") === 1}
             color="secondary"
+            disabled={watch("tabIndex") === 1}
             onClick={() => setValue("tabIndex", 1)}
           >
-            Giải ngân
+            Duyệt yêu cầu chi
+          </Button>
+          <Button
+            variant="contained"
+            sx={{
+              width: "fit-content",
+              textWrap: "nowrap",
+            }}
+            disabled={watch("tabIndex") === 2}
+            color="secondary"
+            onClick={() => setValue("tabIndex", 2)}
+          >
+            Xác nhận giải ngân
           </Button>
         </div>
 
         <Typography fontSize={28} fontWeight={"bold"}>
-          {watch("tabIndex") === 0
-            ? "Danh sách thu chi"
-            : "Danh sách giải ngân"}
+          {HEADING[watch("tabIndex")]}
         </Typography>
 
         {tabElement.map((e, index) => {
