@@ -1,4 +1,4 @@
-import { SessionProvider } from "next-auth/react"
+import { SessionProvider } from "next-auth/react";
 import Layout from "@/components/layouts";
 import createEmotionCache from "@/libs/mui/createEmotionCache";
 import theme from "@/libs/mui/theme";
@@ -17,6 +17,7 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { useEffect, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { GlobalModal } from "@/components/features/global-modal/GlobalModal";
 
 const clientSideEmotionCache = createEmotionCache();
 export interface MyAppProps extends AppProps {
@@ -24,7 +25,11 @@ export interface MyAppProps extends AppProps {
 }
 
 export default function App(props: MyAppProps) {
-  const { Component, emotionCache = clientSideEmotionCache, pageProps: { session, ...pageProps } } = props;
+  const {
+    Component,
+    emotionCache = clientSideEmotionCache,
+    pageProps: { session, ...pageProps },
+  } = props;
 
   const [hydrated, seHydrated] = useState(false);
 
@@ -45,9 +50,11 @@ export default function App(props: MyAppProps) {
               <CssBaseline />
               {hydrated && (
                 <SessionProvider session={session}>
-                  <Layout>
-                    <Component {...pageProps} />
-                  </Layout>
+                  <GlobalModal>
+                    <Layout>
+                      <Component {...pageProps} />
+                    </Layout>
+                  </GlobalModal>
                 </SessionProvider>
               )}
             </ThemeProvider>

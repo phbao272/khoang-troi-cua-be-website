@@ -15,6 +15,7 @@ import MicIcon from "@mui/icons-material/Mic";
 import ClearIcon from "@mui/icons-material/Clear";
 import ToastSuccess from "@/components/shared/toasts/ToastSuccess";
 import { SubmissionDetail } from "./SubmissionDetail";
+import { EllipsisCell } from "@/components/shared/table";
 
 export interface PersonSubmission extends IMember {
   date_time?: string;
@@ -36,35 +37,42 @@ const TEXT_CONFIRM = {
     "Xác nhận chuyển đơn tuyển sang VÒNG PHỎNG VẤN",
 };
 
-const SubmissionTable = (props: { data: PersonSubmission[]; }) => {
+const SubmissionTable = (props: { data: PersonSubmission[] }) => {
   const { data } = props;
+
   const columns = useMemo<MRT_ColumnDef<PersonSubmission>[]>(
     () => [
       {
         accessorKey: "fullName",
         header: "Họ và tên",
-        size: 150,
+        size: 200,
+        Cell: (props) => <EllipsisCell {...props} />,
       },
       {
         accessorKey: "email",
         header: "Email",
-        size: 150,
+        size: 200,
+        Cell: (props) => <EllipsisCell {...props} />,
       },
       {
-        accessorFn: (rowData: any) => new Date(rowData.birthday).toLocaleDateString('vi'),
-        id: 'birthday',
+        accessorFn: (rowData: any) =>
+          new Date(rowData.birthday).toLocaleDateString("vi"),
+        id: "birthday",
         header: "Ngày sinh",
-        size: 150
+        size: 200,
+        Cell: (props) => <EllipsisCell {...props} />,
       },
       {
         accessorKey: "date_time",
         header: "Ngày giờ phỏng vấn",
-        size: 150,
+        size: 200,
+        Cell: (props) => <EllipsisCell {...props} />,
       },
       {
         accessorKey: "test_id",
         header: "Bài test",
-        size: 150,
+        size: 200,
+        Cell: (props) => <EllipsisCell {...props} />,
       },
     ],
     []
@@ -88,7 +96,7 @@ const SubmissionTable = (props: { data: PersonSubmission[]; }) => {
     setAction(action);
   };
 
-  const handleComfirm = () => {
+  const handleConfirm = () => {
     setOpenToast(true);
     closeDetail();
     close();
@@ -156,7 +164,7 @@ const SubmissionTable = (props: { data: PersonSubmission[]; }) => {
         open={opened}
         onClose={close}
         content={`${TEXT_CONFIRM[action as ActionTypeAdd]}`}
-        onConfirm={handleComfirm}
+        onConfirm={handleConfirm}
       />
 
       {rowSelected && (
