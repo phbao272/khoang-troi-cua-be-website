@@ -1,3 +1,10 @@
+import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
+import { NextPage } from "next";
+import { DefaultSeo } from "next-seo";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+
 import {
   InterviewTable,
   SubmissionTable,
@@ -5,13 +12,22 @@ import {
 import { ContainerXL } from "@/components/layouts/ContainerXL";
 import ToastSuccess from "@/components/shared/toasts/ToastSuccess";
 import { SEO } from "@/configs/seo.config";
+import prisma from "@/libs/prisma";
 import { Box, Button, Typography } from "@mui/material";
-import { DefaultSeo } from "next-seo";
-import React from "react";
-import { useForm } from "react-hook-form";
 
-const RecruitmentManagementPage = () => {
-  const [open, setOpen] = React.useState(false);
+interface Props {
+  registrations: any;
+}
+
+const RecruitmentManagementPage: NextPage<Props> = ({ registrations }) => {
+  const [open, setOpen] = useState(false);
+  const { data: session } = useSession({
+    required: true,
+    onUnauthenticated() {
+      router.push('/login');
+    }
+  });
+  const router = useRouter();
 
   const { watch, setValue } = useForm<{ tabIndex: number }>({
     defaultValues: {
@@ -21,12 +37,20 @@ const RecruitmentManagementPage = () => {
 
   const tabElement = [
     {
-      element: <SubmissionTable />,
+      element: <SubmissionTable data={registrations} />,
     },
     {
       element: <InterviewTable />,
     },
   ];
+
+  if (!session) {
+    return (
+      <div>
+        Đang tải...
+      </div>
+    );
+  }
 
   return (
     <ContainerXL>
@@ -81,6 +105,15 @@ const RecruitmentManagementPage = () => {
       </div>
     </ContainerXL>
   );
+};
+
+export const getServerSideProps = async () => {
+  const registrations = await prisma.memberRegistration.findMany();
+  return {
+    props: {
+      registrations: JSON.parse(JSON.stringify(registrations))
+    },
+  };
 };
 
 export default RecruitmentManagementPage;
