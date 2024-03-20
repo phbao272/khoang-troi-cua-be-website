@@ -35,40 +35,28 @@ export const ExpenseCreation = () => {
   });
 
   return (
-    <ContainerXL
-      sx={{
-        backgroundImage: `url(${ktcbBackground.src})`,
-        backgroundSize: "cover",
-        backgroundPosition: "top",
-      }}
-    >
-      <div className="flex flex-col mt-9 gap-4">
-        <ToastSuccess
-          open={open}
-          onClose={() => setOpen(false)}
-          heading="Xác nhận thành công"
-          content="Cảm ơn đã gửi thông tin"
-        />
+    <div className="flex flex-col mt-9 gap-4">
+      <ToastSuccess
+        open={open}
+        onClose={() => setOpen(false)}
+        heading="Xác nhận thành công"
+        content="Cảm ơn đã gửi thông tin"
+      />
 
-        <Typography fontSize={28} fontWeight={"bold"}>
-          Quản lý thu chi
-        </Typography>
+      <ExpenseForm control={control} errors={errors} setError={setError} />
 
-        <ExpenseForm control={control} errors={errors} setError={setError} />
-
-        <Button
-          variant="contained"
-          sx={{
-            marginTop: "1rem",
-            width: "fit-content",
-            alignSelf: "center",
-          }}
-          color="secondary"
-          onClick={onSubmit}
-        >
-          Gửi thông tin
-        </Button>
-      </div>
-    </ContainerXL>
+      <Button
+        variant="contained"
+        sx={{
+          marginTop: "1rem",
+          width: "fit-content",
+          alignSelf: "center",
+        }}
+        color="secondary"
+        onClick={onSubmit}
+      >
+        Gửi thông tin
+      </Button>
+    </div>
   );
 };
