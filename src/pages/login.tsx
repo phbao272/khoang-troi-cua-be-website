@@ -1,17 +1,19 @@
 import * as React from "react";
+import { getServerSession } from "next-auth";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { z } from "zod";
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import logoNoBackground from "@public/ktcb_logo_no_background.png";
-import Link from "next/link";
-import { Controller, useForm } from "react-hook-form";
 import { Input } from "@/components/shared/inputs";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
-
 import { notEmptyMessage } from "@/utils/common";
-import { z } from "zod";
+import { authOptions } from "./api/auth/[...nextauth]";
 
 export const LoginInputSchema = z.object({
   email: z
@@ -155,4 +157,11 @@ export default function Login() {
       </Box>
     </Container>
   );
+}
+
+export async function getServerSideProps(context: any) {
+  const session = await getServerSession(context.req, context.res, authOptions as any);
+  if (session) return { redirect: { destination: '/' } };
+
+  return { props: { session } };
 }

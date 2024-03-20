@@ -3,7 +3,6 @@ import { MaterialReactTable, type MRT_ColumnDef } from "material-react-table";
 import { useTable } from "@/libs/hooks/useTable";
 import { IconButton, Tooltip } from "@mui/material";
 import { DatetimePicker, SelectBox } from "@/components/shared/inputs";
-import TestOptions from "@/utils/data/json/test.json";
 import { IMember } from "@/@types/member";
 import { ellipsisText } from "@/utils/common";
 import { ModalConfirm } from "@/components/shared/modals";
@@ -38,85 +37,13 @@ const TEXT_CONFIRM = {
     "Xác nhận chuyển đơn tuyển sang VÒNG PHỎNG VẤN",
 };
 
-const data: PersonSubmission[] = [
-  {
-    full_name: "123",
-    email: "Kentucky_dai_dai_dai_ktcb@gmail.com",
-    birthday: "27/02/2001",
-    phone_number: "0334455667",
-    address: "144 Xuan Thuy",
-    work_place: "144 Xuan Thuy",
-    has_social_activities: "Đã từng",
-    memories: "Làm việc nhóm tốt",
-    position: "Thành viên",
-    hope_to_receive:
-      "Kinh nghiệm, kiến thức và trải nghiệm Kinh nghiệm, kiến thức và trải nghiệm Kinh nghiệm, kiến thức và trải nghiệm Kinh nghiệm, kiến thức và trải nghiệm Kinh nghiệm, kiến thức và trải nghiệm",
-    date_time: "2024-10-10 10:10:10",
-    test_id: 1,
-  },
-  {
-    full_name: "123",
-    email: "Ohio@gmail.com",
-    birthday: "27/02/2001",
-    phone_number: "0334455667",
-    address: "144 Xuan Thuy",
-    work_place: "144 Xuan Thuy",
-    has_social_activities: "Chưa từng",
-    memories: "Làm việc nhóm tốt",
-    position: "Thành viên",
-    hope_to_receive: "Kinh nghiệm, kiến thức và trải nghiệm",
-    date_time: "2024-01-10 10:10:10",
-    test_id: 1,
-  },
-  {
-    full_name: "123",
-    email: "West Virginia@gmail.com",
-    birthday: "27/02/2001",
-    phone_number: "0334455667",
-    address: "144 Xuan Thuy",
-    work_place: "144 Xuan Thuy",
-    has_social_activities: "Đã từng",
-    memories: "Làm việc nhóm tốt",
-    position: "Thành viên",
-    hope_to_receive: "Kinh nghiệm, kiến thức và trải nghiệm",
-    date_time: "2022-10-10 10:10:10",
-    test_id: 1,
-  },
-  {
-    full_name: "123",
-    email: "Nebraska@gmail.com",
-    birthday: "27/02/2001",
-    phone_number: "0334455667",
-    address: "144 Xuan Thuy",
-    work_place: "144 Xuan Thuy",
-    has_social_activities: "Chưa từng",
-    memories: "Làm việc nhóm tốt",
-    position: "Thành viên",
-    hope_to_receive: "Kinh nghiệm, kiến thức và trải nghiệm",
-    date_time: "2022-10-10 10:10:10",
-    test_id: 1,
-  },
-  {
-    full_name: "123",
-    email: "Nebraska@gmail.com",
-    birthday: "27/02/2001",
-    phone_number: "0334455667",
-    address: "144 Xuan Thuy",
-    work_place: "144 Xuan Thuy",
-    has_social_activities: "Chưa từng",
-    memories: "Làm việc nhóm tốt",
-    position: "Thành viên",
-    hope_to_receive: "Kinh nghiệm, kiến thức và trải nghiệm",
-    date_time: "2022-10-10 10:10:10",
-    test_id: 1,
-  },
-];
+const SubmissionTable = (props: { data: PersonSubmission[] }) => {
+  const { data } = props;
 
-const SubmissionTable = () => {
   const columns = useMemo<MRT_ColumnDef<PersonSubmission>[]>(
     () => [
       {
-        accessorKey: "full_name",
+        accessorKey: "fullName",
         header: "Họ và tên",
         size: 200,
         Cell: (props) => <EllipsisCell {...props} />,
@@ -128,7 +55,9 @@ const SubmissionTable = () => {
         Cell: (props) => <EllipsisCell {...props} />,
       },
       {
-        accessorKey: "birthday",
+        accessorFn: (rowData: any) =>
+          new Date(rowData.birthday).toLocaleDateString("vi"),
+        id: "birthday",
         header: "Ngày sinh",
         size: 200,
         Cell: (props) => <EllipsisCell {...props} />,
