@@ -13,6 +13,7 @@ import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import ClearIcon from "@mui/icons-material/Clear";
 import ToastSuccess from "@/components/shared/toasts/ToastSuccess";
 import { InterviewDetail } from "./InterviewDetail";
+import { EllipsisCell } from "@/components/shared/table";
 
 export interface PersonInterview extends IMember {
   date_time: string;
@@ -33,7 +34,7 @@ const TEXT_CONFIRM = {
 const data: PersonInterview[] = [
   {
     full_name: "123",
-    email: "Kentucky@gmail.com",
+    email: "Kentucky_dai_dai_dai_ktcb@gmail.com",
     birthday: "27/02/2001",
     phone_number: "0334455667",
     address: "144 Xuan Thuy",
@@ -115,39 +116,38 @@ const InterviewTable = () => {
       {
         accessorKey: "full_name",
         header: "Họ và tên",
-        size: 150,
+        size: 200,
+        Cell: (props) => <EllipsisCell {...props} />,
       },
       {
         accessorKey: "email",
         header: "Email",
-        size: 150,
+        size: 200,
+        Cell: (props) => <EllipsisCell {...props} />,
       },
       {
         accessorKey: "birthday",
         header: "Ngày sinh",
-        size: 150,
+        size: 200,
+        Cell: (props) => <EllipsisCell {...props} />,
       },
       {
         accessorKey: "link_gg_met",
         header: "Link Google Meet",
-        size: 150,
-        Cell({ row }) {
-          return (
-            <a href={row.original.link_gg_met} target="_blank">
-              {row.original.link_gg_met}
-            </a>
-          );
-        },
+        size: 200,
+        Cell: (props) => <EllipsisCell {...props} />,
       },
       {
         accessorKey: "date_time",
         header: "Ngày giờ phỏng vấn",
-        size: 150,
+        size: 200,
+        Cell: (props) => <EllipsisCell {...props} />,
       },
       {
         accessorKey: "test_id",
         header: "Bài test",
-        size: 150,
+        size: 200,
+        Cell: (props) => <EllipsisCell {...props} />,
       },
     ],
     []
@@ -169,7 +169,7 @@ const InterviewTable = () => {
     setAction(action);
   };
 
-  const handleComfirm = () => {
+  const handleConfirm = () => {
     setOpenToast(true);
     closeDetail();
     close();
@@ -226,7 +226,7 @@ const InterviewTable = () => {
         open={opened}
         onClose={close}
         content={`${TEXT_CONFIRM[action as ActionType]}`}
-        onConfirm={handleComfirm}
+        onConfirm={handleConfirm}
       />
 
       {rowSelected && (

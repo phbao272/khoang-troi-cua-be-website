@@ -28,10 +28,16 @@ export const useTable = <T extends MRT_RowData>({
     enablePagination: false,
     enableFullScreenToggle: false,
     enableHiding: false,
+    enableClickToCopy: true,
+    enableRowNumbers: true,
+    rowNumberDisplayMode: "static",
     mrtTheme: (theme) => ({
       baseBackgroundColor: theme.palette.background.default,
     }),
-
+    defaultColumn: {
+      minSize: 100,
+      maxSize: 200,
+    },
     muiTableBodyRowProps: { hover: false },
     muiTableProps: {
       sx: {
@@ -51,6 +57,10 @@ export const useTable = <T extends MRT_RowData>({
         "& .Mui-TableHeadCell-Content": {
           display: "flex",
           justifyContent: "center",
+
+          "& .Mui-TableHeadCell-Content-Wrapper": {
+            textAlign: "center",
+          },
         },
       },
     },
@@ -58,6 +68,11 @@ export const useTable = <T extends MRT_RowData>({
       sx: {
         border: "1px solid #ccc",
         fontSize: "16px",
+        fontWeight: "400",
+
+        "& button": {
+          fontWeight: "400",
+        },
       },
     },
 
