@@ -9,7 +9,11 @@ import { DefaultSeo } from "next-seo";
 import React from "react";
 import { useForm } from "react-hook-form";
 
-const HEADING = ["Tạo yêu cầu chi", "Danh sách thu chi", "Danh sách giải ngân"];
+const HEADING = [
+  "Tạo yêu cầu chi",
+  "Danh sách yêu cầu chi",
+  "Danh sách giải ngân",
+];
 
 const ExpenseManagementPage = () => {
   const [open, setOpen] = React.useState(false);

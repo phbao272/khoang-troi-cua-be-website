@@ -40,6 +40,12 @@ export const ACTIONS = {
   ACCEPT_INTERVIEW: "accept_interview",
 };
 
+export const STATUS_OF_EXPENSE = {
+  PENDING: "pending",
+  ACCEPTED: "accepted",
+  REJECTED: "rejected",
+};
+
 export const BANKS = [
   {
     id: 17,

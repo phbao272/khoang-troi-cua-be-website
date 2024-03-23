@@ -6,9 +6,9 @@ import { IconButton, Tooltip } from "@mui/material";
 import { ACTIONS } from "@/utils/constants";
 import { ActionType } from "@/@types/common";
 
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import ClearIcon from "@mui/icons-material/Clear";
+import CheckIcon from "@mui/icons-material/Check";
+import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 
 const data: IExpense[] = [
   {
@@ -16,30 +16,35 @@ const data: IExpense[] = [
     content: "Kentucky@gmail.com",
     date: "2022-10-10 10:10:10",
     img_url: "https://picsum.photos/200",
+    status: "pending",
   },
   {
     title: "123",
     content: "Ohio@gmail.com",
     date: "2022-10-10 10:10:10",
     img_url: "https://picsum.photos/200",
+    status: "pending",
   },
   {
     title: "123",
     content: "West Virginia@gmail.com",
     date: "2022-10-10 10:10:10",
     img_url: "https://picsum.photos/200",
+    status: "pending",
   },
   {
     title: "123",
     content: "Nebraska@gmail.com",
     date: "2022-10-10 10:10:10",
     img_url: "https://picsum.photos/200",
+    status: "pending",
   },
   {
     title: "123",
     content: "Nebraska@gmail.com",
     date: "2022-10-10 10:10:10",
     img_url: "https://picsum.photos/200",
+    status: "pending",
   },
 ];
 
@@ -48,7 +53,7 @@ export const DisbursementTable = () => {
     () => [
       {
         accessorKey: "title",
-        header: "Tiêu đề của khoản chi",
+        header: "Tiêu đề",
         size: 200,
       },
       {
@@ -57,13 +62,13 @@ export const DisbursementTable = () => {
         size: 200,
       },
       {
-        accessorKey: "birthday",
-        header: "Nội dung chi tiết khoản chi",
+        accessorKey: "content",
+        header: "Chi tiết",
         size: 200,
       },
       {
         accessorKey: "img_url",
-        header: "Minh chứnh",
+        header: "Minh chứng",
         size: 200,
         Cell({ row }) {
           return (
@@ -72,6 +77,11 @@ export const DisbursementTable = () => {
             </a>
           );
         },
+      },
+      {
+        accessorKey: "status",
+        header: "Trạng thái",
+        size: 200,
       },
     ],
     []
@@ -87,33 +97,33 @@ export const DisbursementTable = () => {
     enableRowActions: true,
     renderTopToolbar: () => <div />,
     renderBottomToolbar: () => <div />,
-    renderRowActions: ({ row }) => (
-      <div className="flex items-center justify-center min-w-">
-        <Tooltip title="Xem hồ sơ của đơn tuyển">
-          <IconButton onClick={() => handleOpenModal(row.original)}>
-            <VisibilityIcon />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Chuyển đơn tuyển sang thành viên chính thức">
-          <IconButton
-            onClick={() =>
-              handleOpenModal(row.original, ACTIONS["ACCEPT"] as ActionType)
-            }
-          >
-            <PeopleAltIcon />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Loại đơn tuyển">
-          <IconButton
-            onClick={() =>
-              handleOpenModal(row.original, ACTIONS["REJECT"] as ActionType)
-            }
-          >
-            <ClearIcon />
-          </IconButton>
-        </Tooltip>
-      </div>
-    ),
+    renderRowActions: ({ row }) => {
+      console.log(row.original);
+
+      return (
+        <div className="flex items-center justify-center min-w-">
+          <Tooltip title="Duyệt">
+            <IconButton onClick={() => handleOpenModal(row.original)}>
+              <CheckIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Hoàn duyệt">
+            <IconButton onClick={() => handleOpenModal(row.original)}>
+              <RadioButtonUncheckedIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Không duyệt">
+            <IconButton
+              onClick={() =>
+                handleOpenModal(row.original, ACTIONS["REJECT"] as ActionType)
+              }
+            >
+              <ClearIcon />
+            </IconButton>
+          </Tooltip>
+        </div>
+      );
+    },
     positionActionsColumn: "last",
   });
 

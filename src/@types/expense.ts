@@ -3,4 +3,5 @@ export interface IExpense {
   content: string;
   date: string;
   img_url: string;
+  status: string;
 }
