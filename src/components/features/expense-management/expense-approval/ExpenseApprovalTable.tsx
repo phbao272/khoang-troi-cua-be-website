@@ -2,13 +2,14 @@ import { IExpense } from "@/@types/expense";
 import React, { useMemo } from "react";
 import { MaterialReactTable, type MRT_ColumnDef } from "material-react-table";
 import { useTable } from "@/libs/hooks/useTable";
-import { IconButton, Tooltip } from "@mui/material";
-import { ACTIONS, STATUS_OF_EXPENSE } from "@/utils/constants";
+import { ACTIONS, STATUS_OF_EXPENSE, TEXT_OF_STATUS } from "@/utils/constants";
 import { ActionType } from "@/@types/common";
 
-import ClearIcon from "@mui/icons-material/Clear";
-import CheckIcon from "@mui/icons-material/Check";
-import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
+import { Actions } from "./components/Actions";
+import {
+  MODAL_TYPES,
+  useGlobalModalContext,
+} from "../../global-modal/GlobalModal";
 
 const data: IExpense[] = [
   {
@@ -48,7 +49,21 @@ const data: IExpense[] = [
   },
 ];
 
+const TEXT_TOAST = {
+  [ACTIONS["ACCEPT"]]: "Xác nhận DUYỆT yêu cầu thu chi thành công!",
+  [ACTIONS["REJECT"]]: "Xác nhận KHÔNG DUYỆT yêu cầu thu chi thành công",
+  [ACTIONS["UN_ACCEPT"]]: "Xác nhận HOÀN DUYỆT yêu cầu thu chi thành công",
+};
+
+const TEXT_CONFIRM = {
+  [ACTIONS["ACCEPT"]]: "Xác nhận DUYỆT yêu cầu thu chi",
+  [ACTIONS["REJECT"]]: "Xác nhận KHÔNG DUYỆT yêu cầu thu chi",
+  [ACTIONS["UN_ACCEPT"]]: "Xác nhận HOÀN DUYỆT yêu cầu thu chi",
+};
+
 export const ExpenseApprovalTable = () => {
+  const { showModal, hideModal } = useGlobalModalContext();
+
   const columns = useMemo<MRT_ColumnDef<IExpense>[]>(
     () => [
       {
@@ -62,7 +77,7 @@ export const ExpenseApprovalTable = () => {
         size: 200,
       },
       {
-        accessorKey: "birthday",
+        accessorKey: "content",
         header: "CHI TIẾT",
         size: 200,
       },
@@ -82,13 +97,43 @@ export const ExpenseApprovalTable = () => {
         accessorKey: "status",
         header: "Trạng thái",
         size: 200,
+        Cell: ({ cell }) => {
+          return TEXT_OF_STATUS[cell.getValue() as string];
+        },
       },
     ],
     []
   );
 
-  const handleOpenModal = (expense: IExpense, action?: ActionType) => {
-    console.log(expense);
+  const handleOpenModal = (expense: IExpense, action: ActionType) => {
+    showModal(MODAL_TYPES.MODAL_CONFIRM, {
+      content: TEXT_CONFIRM[action as string],
+      onConfirm: Function[action as string],
+    });
+  };
+
+  const handleAccept = () => {
+    showModal(MODAL_TYPES.MODAL_SUCCESS, {
+      content: TEXT_TOAST[ACTIONS["ACCEPT"]],
+    });
+  };
+
+  const handleReject = () => {
+    showModal(MODAL_TYPES.MODAL_SUCCESS, {
+      content: TEXT_TOAST[ACTIONS["REJECT"]],
+    });
+  };
+
+  const handleUnAccept = () => {
+    showModal(MODAL_TYPES.MODAL_SUCCESS, {
+      content: TEXT_TOAST[ACTIONS["UN_ACCEPT"]],
+    });
+  };
+
+  const Function = {
+    [ACTIONS["ACCEPT"]]: handleAccept,
+    [ACTIONS["REJECT"]]: handleReject,
+    [ACTIONS["UN_ACCEPT"]]: handleUnAccept,
   };
 
   const table = useTable({
@@ -98,29 +143,14 @@ export const ExpenseApprovalTable = () => {
     renderTopToolbar: () => <div />,
     renderBottomToolbar: () => <div />,
     renderRowActions: ({ row }) => {
-      console.log(row.original.status);
-
       return (
         <div className="flex items-center justify-center min-w-">
-          <Tooltip title="Duyệt">
-            <IconButton onClick={() => handleOpenModal(row.original)}>
-              <CheckIcon />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Hoàn duyệt">
-            <IconButton onClick={() => handleOpenModal(row.original)}>
-              <RadioButtonUncheckedIcon />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Không duyệt">
-            <IconButton
-              onClick={() =>
-                handleOpenModal(row.original, ACTIONS["REJECT"] as ActionType)
-              }
-            >
-              <ClearIcon />
-            </IconButton>
-          </Tooltip>
+          <Actions
+            status={row.original.status}
+            handleOpenModal={(action: string) =>
+              handleOpenModal(row.original, action as ActionType)
+            }
+          />
         </div>
       );
     },

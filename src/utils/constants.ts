@@ -38,6 +38,7 @@ export const ACTIONS = {
   ACCEPT: "accept",
   REJECT: "reject",
   ACCEPT_INTERVIEW: "accept_interview",
+  UN_ACCEPT: "un_accept",
 };
 
 export const STATUS_OF_EXPENSE = {
