@@ -44,6 +44,14 @@ export const STATUS_OF_EXPENSE = {
   PENDING: "pending",
   ACCEPTED: "accepted",
   REJECTED: "rejected",
+  DISBURSED: "disbursed",
+};
+
+export const TEXT_OF_STATUS = {
+  [STATUS_OF_EXPENSE.PENDING]: "Chờ duyệt",
+  [STATUS_OF_EXPENSE.ACCEPTED]: "Đã duyệt",
+  [STATUS_OF_EXPENSE.REJECTED]: "Không duyệt",
+  [STATUS_OF_EXPENSE.DISBURSED]: "Đã gỉai ngân",
 };
 
 export const BANKS = [
