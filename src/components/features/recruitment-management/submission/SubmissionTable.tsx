@@ -1,10 +1,10 @@
 import { useMemo, useState } from "react";
 import { MaterialReactTable, type MRT_ColumnDef } from "material-react-table";
+
+import { MemberRegistrationWithPosition } from "@/@types/membershipRegistration";
+
 import { useTable } from "@/libs/hooks/useTable";
 import { IconButton, Tooltip } from "@mui/material";
-import { DatetimePicker, SelectBox } from "@/components/shared/inputs";
-import { IMember } from "@/@types/member";
-import { ellipsisText } from "@/utils/common";
 import { ModalConfirm } from "@/components/shared/modals";
 import { useDisclosure } from "@/libs/hooks/useDisclosure";
 import { ActionType } from "@/@types/common";
@@ -16,11 +16,6 @@ import ClearIcon from "@mui/icons-material/Clear";
 import ToastSuccess from "@/components/shared/toasts/ToastSuccess";
 import { SubmissionDetail } from "./SubmissionDetail";
 import { EllipsisCell } from "@/components/shared/table";
-
-export interface PersonSubmission extends IMember {
-  date_time?: string;
-  test_id?: number;
-}
 
 export type ActionTypeAdd = ActionType | "accept_interview";
 
@@ -37,10 +32,10 @@ const TEXT_CONFIRM = {
     "Xác nhận chuyển đơn tuyển sang VÒNG PHỎNG VẤN",
 };
 
-const SubmissionTable = (props: { data: PersonSubmission[] }) => {
+const SubmissionTable = (props: { data: MemberRegistrationWithPosition[] }) => {
   const { data } = props;
 
-  const columns = useMemo<MRT_ColumnDef<PersonSubmission>[]>(
+  const columns = useMemo<MRT_ColumnDef<MemberRegistrationWithPosition>[]>(
     () => [
       {
         accessorKey: "fullName",
@@ -61,19 +56,7 @@ const SubmissionTable = (props: { data: PersonSubmission[] }) => {
         header: "Ngày sinh",
         size: 200,
         Cell: (props) => <EllipsisCell {...props} />,
-      },
-      {
-        accessorKey: "date_time",
-        header: "Ngày giờ phỏng vấn",
-        size: 200,
-        Cell: (props) => <EllipsisCell {...props} />,
-      },
-      {
-        accessorKey: "test_id",
-        header: "Bài test",
-        size: 200,
-        Cell: (props) => <EllipsisCell {...props} />,
-      },
+      }
     ],
     []
   );
@@ -83,11 +66,11 @@ const SubmissionTable = (props: { data: PersonSubmission[] }) => {
   const [openedDetail, { open: openDetail, close: closeDetail }] =
     useDisclosure();
 
-  const [rowSelected, setRowSelected] = useState<PersonSubmission>();
+  const [rowSelected, setRowSelected] = useState<MemberRegistrationWithPosition>();
   const [action, setAction] = useState<ActionTypeAdd>();
 
   const handleOpenModal = (
-    person: PersonSubmission,
+    person: MemberRegistrationWithPosition,
     action?: ActionTypeAdd
   ) => {
     action ? open() : openDetail();

@@ -5,6 +5,9 @@ import { DefaultSeo } from "next-seo";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
+import prisma from "@/libs/prisma";
+import type { MemberRegistrationWithPosition } from "@/@types/membershipRegistration";
+
 import {
   InterviewTable,
   SubmissionTable,
@@ -12,11 +15,10 @@ import {
 import { ContainerXL } from "@/components/layouts/ContainerXL";
 import ToastSuccess from "@/components/shared/toasts/ToastSuccess";
 import { SEO } from "@/configs/seo.config";
-import prisma from "@/libs/prisma";
 import { Box, Button, Typography } from "@mui/material";
 
 interface Props {
-  registrations: any;
+  registrations: MemberRegistrationWithPosition[];
 }
 
 const RecruitmentManagementPage: NextPage<Props> = ({ registrations }) => {
@@ -47,6 +49,7 @@ const RecruitmentManagementPage: NextPage<Props> = ({ registrations }) => {
   if (!session) {
     return (
       <div>
+        {/* TODO: Them icon loading */}
         Đang tải...
       </div>
     );
@@ -108,7 +111,15 @@ const RecruitmentManagementPage: NextPage<Props> = ({ registrations }) => {
 };
 
 export const getServerSideProps = async () => {
-  const registrations = await prisma.memberRegistration.findMany();
+  const registrations = await prisma.memberRegistration.findMany({
+    include: {
+      position: {
+        select: {
+          name: true,
+        },
+      }
+    }
+  });
   return {
     props: {
       registrations: JSON.parse(JSON.stringify(registrations))
