@@ -1,13 +1,16 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
+import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/libs/prisma";
-import { sendMail } from '@mailer/mailService';
-import mailData from '@mailer/templates/member-registration-complete';
+import { sendMail } from "@mailer/mailService";
+import mailData from "@mailer/templates/recruit-members/member-registration-complete";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   const data = req.body;
 
   if (!data) {
-    return res.status(400).json({ message: 'Content not found' });
+    return res.status(400).json({ message: "Content not found" });
   }
 
   const hasSocialActivities = data.has_social_activities === "1";
@@ -23,7 +26,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       hasSocialActivities: hasSocialActivities,
       memories: data.memories,
       positionId: parseInt(data.position),
-      hopeToReceive: data.hope_to_receive
+      hopeToReceive: data.hope_to_receive,
     },
     include: {
       position: {
@@ -38,16 +41,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     try {
       const result = await sendMail(
         [data.email],
-        'CẢM ƠN BẠN ĐÃ ĐĂNG KÝ THÀNH VIÊN KHOẢNG TRỜI CỦA BÉ',
+        "CẢM ƠN BẠN ĐÃ ĐĂNG KÝ THÀNH VIÊN KHOẢNG TRỜI CỦA BÉ",
         mailData(member)
       );
       resolve(result);
-      res.status(200).json({message: 'Mail sent!'});
+      res.status(200).json({ message: "Mail sent!" });
     } catch (err: any) {
       reject(err);
       return res.status(500).json({
-        error: err.message || 'Something went wrong'
+        error: err.message || "Something went wrong",
       });
     }
-  })
+  });
 }
